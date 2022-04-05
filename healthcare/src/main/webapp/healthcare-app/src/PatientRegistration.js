@@ -53,7 +53,7 @@ function PatientRegistration(){
         window.confirmationResult.confirm(code).then((result) => {
           // User signed in successfully.
           const user = result.user;
-          console.log(JSON.stringify(user))
+          //console.log(JSON.stringify(user))
           setVerified(true);
           // ...
         }).catch((error) => {
@@ -65,17 +65,15 @@ function PatientRegistration(){
     const register = (e) =>{
       e.preventDefault();
       console.log(JSON.stringify(patient));
-      
-
-    //const data = { title, body };
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(patient)
-    };
-    fetch("http://0d39-103-156-19-229.ngrok.io/patient/register", requestOptions)
-      .then(response => response.json())
-      .then(res => console.log(res));
+         
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(patient)
+      };
+      fetch("http://601c-103-156-19-229.ngrok.io/patient/register", requestOptions)
+        .then(response => response.json())
+        .then(res => console.log(res));
     }
     return(
         <div class="container">
