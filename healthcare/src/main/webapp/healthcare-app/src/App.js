@@ -7,7 +7,9 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-
+import CreateConsent from './CreateConsent';
+import ViewConsents from './ViewConsents';
+import ViewEHR from './ViewEHR';
 function App() {
     return (
       <>
@@ -16,6 +18,9 @@ function App() {
             <Route exact path="/" element={<Home/>} />
             <Route path="/addPatientEHR" element={<AddPatientEHR/>} />
             <Route path="/patientRegistration" element={<PatientRegistration/>} />
+            <Route path="/createConsent" element={<CreateConsent/>} />
+            <Route path="/viewConsents" element={<ViewConsents/>} />
+            <Route path="/viewEHR" element={<ViewEHR/>} />
             <Route path="/" element={<Navigate to="/"/>}/>
           </Routes>
         </Router>
