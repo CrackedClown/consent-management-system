@@ -16,6 +16,12 @@ const Home = () => {
         <li>
           <Link to="/addPatientEHR">Add Patient EHR</Link>
         </li>
+        <li>
+          <Link to="/createConsent">Create Consent</Link>
+        </li>
+        <li>
+          <Link to="/viewConsents">View Consents</Link>
+        </li>
       </ul>
     </div>
   );
