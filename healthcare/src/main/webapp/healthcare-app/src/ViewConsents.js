@@ -1,6 +1,6 @@
-import { render } from "@testing-library/react";
 import { useState,useEffect } from "react";
 import './patientRegistration.css';
+import { Link } from "react-router-dom";
 
 function ViewConsents(){
     //const [id,setId]=useState({
@@ -21,7 +21,7 @@ function ViewConsents(){
             "healthProfessionalId":1 },
           };
           
-        fetch('http://5bbc-119-161-98-68.ngrok.io/consent/healthcare',requestOptions)
+        fetch('http://daee-103-156-19-229.ngrok.io/consent/healthcare',requestOptions)
             .then(response => response.json())
             .then(res => setConsent({
                 items:res,
@@ -29,27 +29,7 @@ function ViewConsents(){
             }));
         console.log(consent);
     } 
-    const [ehr,setEhr]=useState({
-        data:[]
-    });
-    const viewEHR = (item) => {
-        const requestOptions = {
-            method: "GET",
-            headers: { "Content-Type": "application/json",
-            "fromDate":item.fromDate,"toDate":item.toDate,"patientId":item.patientId}
-          };
-          
-        fetch('http://5bbc-119-161-98-68.ngrok.io/ehr',requestOptions)
-            .then(response => response.json())
-            .then(res => setEhr({
-                data:res,
-                //isDataLoaded:true
-            }));
-        console.log(ehr);
-    };
-    const delegateConsent = (key) => {
-
-    };
+    
     if (!consent.isDataLoaded) 
     return <div> <h1> Pleses wait some time.... </h1> </div> ;
     return(
@@ -78,14 +58,18 @@ function ViewConsents(){
                         <td>
                             {
                                 item.status==='APPROVED'
-                                ?<input type="submit" onClick={()=>viewEHR(item)} value="View EHR"/>
+                                ?<Link to="/viewConsents/viewEHR" state={item}>
+                                    <input type="submit" value="View EHR"/>
+                                 </Link>
                                 :<></>
                             }
                         </td>
                         <td>
                             {
                                 item.status==='APPROVED'
-                                ?<input type="submit" onClick={()=>delegateConsent(item.id)} value="Delegate Consent"/>
+                                ?<Link to="/viewConsents/delegateConsent" state={item}>
+                                    <input type="submit" value="Delegate Consent"/>
+                                 </Link>
                                 :<></>
                             }
                         </td>

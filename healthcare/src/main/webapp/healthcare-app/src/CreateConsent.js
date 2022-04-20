@@ -1,6 +1,7 @@
 import { useState } from "react";
 import './patientRegistration.css';
 
+
 function CreateConsent(){
     const [consent,setConsent]=useState({
         hid:"1",
