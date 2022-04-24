@@ -1,16 +1,29 @@
 package com.cms.portal.healthcare.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Entity
-@Table(name = "consultation")
-public class Consultation {
+@Table(name = "EHR")
+@Data
+@RequiredArgsConstructor
+@AllArgsConstructor
+@Builder
+public class EHR {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "consultation_id", nullable = false)
-    private Long consultationId;
+    @Column(name = "id", nullable = false)
+    private Long id;
 
     @Column(name = "patient_id", nullable = false)
     private Long patientId;
@@ -25,10 +38,10 @@ public class Consultation {
     private String remarks;
 
     @Column(name = "consultation_time", nullable = false)
-    private LocalDateTime consultationTime;
+    private LocalDate consultationTime;
 
     @ManyToOne
     @JoinColumn(name = "health_professional_id")
-    private HealthProfessional healthProfessional;
+    private HealthcareProfessional healthcareProfessional;
 
 }

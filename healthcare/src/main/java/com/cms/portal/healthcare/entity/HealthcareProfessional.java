@@ -1,19 +1,28 @@
 package com.cms.portal.healthcare.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "health_professional")
-public class HealthProfessional {
+@Data
+@RequiredArgsConstructor
+@AllArgsConstructor
+@Builder
+public class HealthcareProfessional {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "age", nullable = false)
@@ -22,8 +31,11 @@ public class HealthProfessional {
     @Column(name = "gender", nullable = false)
     private String gender;
 
-    @Column(name = "email", unique = true)
+    @Column(name = "email", unique = true, nullable = true)
     private String email;
+
+    @Column(name = "password", nullable = false)
+    private String password;
 
     @Column(name = "government_id", nullable = false, unique = true)
     private String governmentId;
@@ -31,7 +43,7 @@ public class HealthProfessional {
     @Column(name = "degree", nullable = false)
     private String degree;
 
-    @Column(name = "department")
+    @Column(name = "department", nullable = false)
     private String department;
 
     @Column(name = "mobile_num", nullable = false, unique = true, length = 10)
@@ -41,7 +53,7 @@ public class HealthProfessional {
     @JoinColumn(name = "hid")
     private HospitalInformation hospitalInformation;
 
-    @OneToMany(mappedBy = "healthProfessional", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Consultation> consultations = new ArrayList<>();
+    @OneToMany(mappedBy = "healthcareProfessional", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<EHR> ehrList = new ArrayList<>();
 
 }
