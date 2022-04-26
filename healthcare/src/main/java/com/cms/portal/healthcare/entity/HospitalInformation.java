@@ -28,15 +28,6 @@ public class HospitalInformation {
     @Column(name = "hospital_address", nullable = false)
     private String hospitalAddress;
 
-    @Column(name = "hospital_db", nullable = false, unique = true)
-    private String hospitalDatabaseAddress;
-
-    @Column(name = "hospital_db_username", nullable = false)
-    private String hospitalDatabaseUsername;
-
-    @Column(name = "hospital_db_password", nullable = false)
-    private String hospitalDatabasePassword;
-
     @OneToMany(mappedBy = "hospitalInformation", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HealthcareProfessional> healthcareProfessionals = new ArrayList<>();
 

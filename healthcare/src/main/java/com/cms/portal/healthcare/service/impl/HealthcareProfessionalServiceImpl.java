@@ -9,6 +9,9 @@ import com.cms.portal.healthcare.response.HealthcareProfessionalRegistrationResp
 import com.cms.portal.healthcare.service.HealthcareProfessionalService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -54,8 +57,6 @@ public class HealthcareProfessionalServiceImpl implements HealthcareProfessional
         return response;
     }
 
-
-
     @Override
     public HealthcareProfessional findById(Long id) {
         if(healthcareProfessionalRepository.findById(id).isPresent()) {
@@ -63,4 +64,5 @@ public class HealthcareProfessionalServiceImpl implements HealthcareProfessional
         }
         return null;
     }
+
 }

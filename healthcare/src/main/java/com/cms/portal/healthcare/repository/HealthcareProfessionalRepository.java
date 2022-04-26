@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface HealthcareProfessionalRepository extends JpaRepository<HealthcareProfessional, Long> {
 
     Optional<HealthcareProfessional> findById(Long id);
+
+    HealthcareProfessional findByUsername(String username);
 }

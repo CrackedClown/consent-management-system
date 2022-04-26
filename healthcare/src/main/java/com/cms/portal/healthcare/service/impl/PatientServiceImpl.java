@@ -16,7 +16,6 @@ import org.springframework.web.client.RestTemplate;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@CrossOrigin
 public class PatientServiceImpl implements PatientService {
 
     private final PatientRepository patientRepository;
