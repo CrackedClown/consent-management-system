@@ -30,7 +30,7 @@ public class EHRController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('DOCTOR','NURSE')")
+    @PreAuthorize("hasAnyRole('DOCTOR','NURSE', 'CM')")
     public ResponseEntity<List<GetEHRResponse>> getEHR(@RequestHeader(HealthcareConstants.FROM_DATE) @DateTimeFormat(pattern = HealthcareConstants.DATE_TIME_FORMAT) LocalDate fromDate,
                                                        @RequestHeader(HealthcareConstants.TO_DATE) @DateTimeFormat(pattern = HealthcareConstants.DATE_TIME_FORMAT) LocalDate toDate,
                                                        @RequestHeader(HealthcareConstants.PATIENT_ID) Long patientId){

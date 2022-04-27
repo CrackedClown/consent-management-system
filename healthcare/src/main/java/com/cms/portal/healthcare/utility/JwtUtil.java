@@ -16,7 +16,7 @@ import java.util.function.Function;
 public class JwtUtil {
 
     private static final String SECRET_KEY = "learn_programming_yourself";
-    private static final int TOKEN_VALIDITY = 3600;
+    private static final int TOKEN_VALIDITY = 36000;
 
     public String getUsernameFromToken(String token){
         return getClaimFromToken(token, Claims::getSubject);

@@ -5,6 +5,7 @@ import com.cms.portal.healthcare.entity.Role;
 import com.cms.portal.healthcare.enums.RoleEnum;
 import com.cms.portal.healthcare.repository.HealthcareProfessionalRepository;
 import com.cms.portal.healthcare.repository.HospitalInformationRepository;
+import com.cms.portal.healthcare.repository.RoleRepository;
 import com.cms.portal.healthcare.request.HealthcareProfessionalRegistrationRequest;
 import com.cms.portal.healthcare.response.HealthcareProfessionalRegistrationResponse;
 import com.cms.portal.healthcare.service.HealthcareProfessionalService;
@@ -27,6 +28,8 @@ public class HealthcareProfessionalServiceImpl implements HealthcareProfessional
 
     private final PasswordEncoder bCryptPasswordEncoder;
 
+    private final RoleRepository roleRepository;
+
     @Override
     @Transactional
     public HealthcareProfessionalRegistrationResponse register(HealthcareProfessionalRegistrationRequest request) {
@@ -43,7 +46,7 @@ public class HealthcareProfessionalServiceImpl implements HealthcareProfessional
                 .department(request.getDepartment())
                 .mobileNum(request.getMobileNum())
                 .hospitalInformation(hospitalInformationRepository.findById(request.getHid()).get())
-                .role(Set.of(Role.builder().name(RoleEnum.valueOf(request.getRole())).build()))
+                .role(Set.of(roleRepository.findByName(RoleEnum.valueOf(request.getRole())).get()))
                 .build();
 
         newHealthCareProfessional = healthcareProfessionalRepository.save(newHealthCareProfessional);

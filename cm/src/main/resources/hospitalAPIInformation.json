@@ -1,0 +1,14 @@
+{
+  "1" : {
+    "API_getEHR" : "http://localhost:8080/ehr",
+    "token": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDb25zZW50LU1hbmFnZXJAZW1haWwuY29tIiwiZXhwIjoxNjUxMTI0NTA2LCJpYXQiOjE2NTEwODg1MDZ9.DtIzfi6mPlLLgQVaDdbVH6M5Eu_61Tgri1Fn7HUI88nVTSm42j8e6OtRvYNEHcbJzykQ1KvJfpXKFcCJcvH1KQ"
+  },
+  "2" : {
+    "API_getEHR" : "http://localhost:8080/ehr",
+    "token": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDb25zZW50LU1hbmFnZXJAZW1haWwuY29tIiwiZXhwIjoxNjUxMTI0NTA2LCJpYXQiOjE2NTEwODg1MDZ9.DtIzfi6mPlLLgQVaDdbVH6M5Eu_61Tgri1Fn7HUI88nVTSm42j8e6OtRvYNEHcbJzykQ1KvJfpXKFcCJcvH1KQ"
+  },
+  "3" : {
+    "API_getEHR" : "http://localhost:8080/ehr",
+    "token": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDb25zZW50LU1hbmFnZXJAZW1haWwuY29tIiwiZXhwIjoxNjUxMTI0NTA2LCJpYXQiOjE2NTEwODg1MDZ9.DtIzfi6mPlLLgQVaDdbVH6M5Eu_61Tgri1Fn7HUI88nVTSm42j8e6OtRvYNEHcbJzykQ1KvJfpXKFcCJcvH1KQ"
+  }
+}

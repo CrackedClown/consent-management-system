@@ -12,6 +12,10 @@ public class CMConstants {
 
     public static final String DATE_TIME_FORMAT = "yyyy-MM-dd";
 
+    public static final String AUTHORIZATION = "Authorization";
+
+    public static final String TOKEN = "token";
+
 
 
     //API

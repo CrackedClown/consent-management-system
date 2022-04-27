@@ -56,12 +56,15 @@ public class EHRHistoryServiceImpl implements EHRHistoryService {
     public List<GetEHRResponse> getEHR(Long patientId, LocalDate fromDate, LocalDate toDate) {
         List<Long> hospitalIds = ehrHistoryRepository.findDistinctHidByPatientIdAndConsultationTimeBetween(patientId, fromDate, toDate);
         try {
-            List<String> uriList = fileUtils.getApiUriList(hospitalIds, CMConstants.GET_EHR_API_URI);
+            List<String> apiDataList = fileUtils.getApiData(hospitalIds, CMConstants.GET_EHR_API_URI);
             List<GetEHRResponse> response = new ArrayList<>();
-            for(String uri: uriList){
+            for(String apiData: apiDataList){
+                String uri = apiData.split(", ")[0];
+                String token = apiData.split(", ")[1];
                 HttpHeaders headers = new HttpHeaders();
-                headers.setAccept(Arrays.asList(new MediaType[] { MediaType.APPLICATION_JSON }));
+                headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
                 headers.setContentType(MediaType.APPLICATION_JSON);
+                headers.set(CMConstants.AUTHORIZATION, token);
                 headers.set(CMConstants.PATIENT_ID, patientId.toString());
                 headers.set(CMConstants.FROM_DATE, fromDate.toString());
                 headers.set(CMConstants.TO_DATE, toDate.toString());

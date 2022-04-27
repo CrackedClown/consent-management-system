@@ -10,7 +10,9 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 @AllArgsConstructor
@@ -20,12 +22,13 @@ public class FileUtils {
     @Value("${file.path.hospital.information}")
     private String hospitalInformationJSONFilePath;
 
-    public List<String> getApiUriList(List<Long> hospitalIds, String uri) throws IOException {
+    public List<String> getApiData(List<Long> hospitalIds, String uri) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readValue(new File(hospitalInformationJSONFilePath), JsonNode.class);
         List<String> uriList = new ArrayList<>();
         for(Long id : hospitalIds){
-            uriList.add(jsonNode.get(id.toString()).get(uri).asText());
+            String data = jsonNode.get(id.toString()).get(uri).asText() + ", " + jsonNode.get(id.toString()).get(CMConstants.TOKEN).asText();
+            uriList.add(data);
         }
         return uriList;
     }
