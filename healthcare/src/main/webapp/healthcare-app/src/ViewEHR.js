@@ -1,8 +1,10 @@
 import { useState,useEffect } from "react";
 import './patientRegistration.css';
 import { useLocation } from 'react-router-dom'
+import Navbar from './Navbar';
 
 function ViewEHR(){
+    const user = JSON.parse(localStorage.getItem('user'));
     const location = useLocation()
     const item=location.state;
     useEffect(() => {
@@ -17,10 +19,11 @@ function ViewEHR(){
         const requestOptions = {
             method: "GET",
             headers: { "Content-Type": "application/json",
-            "fromDate":item.fromDate,"toDate":item.toDate,"patientId":item.patientId}
+            "fromDate":item.fromDate,"toDate":item.toDate,"patientId":item.patientId,
+            "Authorization": "Bearer "+user.jwtToken}
           };
           
-        fetch('http://daee-103-156-19-229.ngrok.io/ehr',requestOptions)
+        fetch('http://f2cb-103-156-19-229.ngrok.io/ehr',requestOptions)
             .then(response => response.json())
             .then(res => setEhr({
                 data:res,
@@ -32,6 +35,7 @@ function ViewEHR(){
         return <h1>Please wait some time....</h1>;
     return(
         <div>
+            <Navbar/>
             <h1>E Health Records</h1>
             <table>
                 <tr>

@@ -2,9 +2,12 @@ import { useState } from "react";
 import firebase from './firebase';
 import './patientRegistration.css';
 import { getAuth,signInWithPhoneNumber,RecaptchaVerifier } from "firebase/auth";
+import Navbar from './Navbar';
+
 function PatientRegistration(){
+  const user = JSON.parse(localStorage.getItem('user'));
   const [patient,setPatient]=useState({
-    hid:"",
+    hid:user.user.hospitalInformation.hid,
     patientName:"",
     governmentId:"",
     mobileNum:"",
@@ -68,24 +71,20 @@ function PatientRegistration(){
          
       const requestOptions = {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json",
+        "Authorization": "Bearer "+user.jwtToken },
         body: JSON.stringify(patient)
       };
-      fetch("http://601c-103-156-19-229.ngrok.io/patient/register", requestOptions)
+      fetch("http://f2cb-103-156-19-229.ngrok.io/patient/register", requestOptions)
         .then(response => response.json())
         .then(res => console.log(res));
     }
     return(
         <div class="container">
+          <Navbar/>
           <h1>Patient Registration</h1>
           
           <div id="sign-in-button"></div>
-          <div class="row">
-          <div class="col-25"><label>Hospital ID</label></div>
-          <div class="col-75"><input type="text" 
-          value={patient.hid}
-          onChange={(e) => setPatient({ ...patient, hid: e.target.value })}/> </div>
-          </div>
 
           <div class="row">
           <div class="col-25"><label>Patient Name</label></div>

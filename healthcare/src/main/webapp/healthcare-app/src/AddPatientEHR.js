@@ -1,30 +1,37 @@
 import { useState } from "react";
 import './patientRegistration.css';
 import { format } from 'date-fns';
+import Navbar from './Navbar';
 
 function AddPatientEHR(){
+    const user = JSON.parse(localStorage.getItem('user'));
     const [record,setRecord]=useState({
         patientId:"",
         symptoms:"",
         prescription:"",
         remarks:"",
         consultationTime:format(new Date(), 'yyyy-MM-dd'),
-        healthProfessionalId:"1"
+        healthProfessionalId:user.user.id
       });
+    //if (user && user.jwtToken) {
+      //  return { Authorization: 'Bearer ' + user.accessToken };
+    //}
     const addRecord = (e) => {
         e.preventDefault()
         console.log(JSON.stringify(record));
         const requestOptions = {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json",
+                "Authorization": "Bearer "+user.jwtToken },
             body: JSON.stringify(record)
           };
-          fetch("http://601c-103-156-19-229.ngrok.io/ehr/history", requestOptions)
+          fetch("http://f2cb-103-156-19-229.ngrok.io/ehr", requestOptions)
             .then(response => response.json())
             .then(res => console.log(res));
     } 
     return(
         <div class="container">
+            <Navbar/>
             <h1>Add New EHR</h1>
             <div class="row">
                 <div class="col-25"><label>Patient ID</label></div>

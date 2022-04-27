@@ -1,11 +1,13 @@
 import { useState,useEffect } from "react";
 import './patientRegistration.css';
 import { Link } from "react-router-dom";
+import Navbar from './Navbar';
 
 function ViewConsents(){
     //const [id,setId]=useState({
       //  healthProfessionalId:1,
     //});
+    const user = JSON.parse(localStorage.getItem('user'));
     const [consent,setConsent]=useState({
         items:[],
         isDataLoaded:false
@@ -18,10 +20,11 @@ function ViewConsents(){
         const requestOptions = {
             method: "GET",
             headers: { "Content-Type": "application/json",
-            "healthProfessionalId":1 },
+            "healthProfessionalId":user.user.id,
+            "Authorization": "Bearer "+user.jwtToken },
           };
           
-        fetch('http://daee-103-156-19-229.ngrok.io/consent/healthcare',requestOptions)
+        fetch('http://f2cb-103-156-19-229.ngrok.io/consent/healthcare',requestOptions)
             .then(response => response.json())
             .then(res => setConsent({
                 items:res,
@@ -34,6 +37,7 @@ function ViewConsents(){
     return <div> <h1> Pleses wait some time.... </h1> </div> ;
     return(
         <div>
+            <Navbar/>
             <h1>Consents</h1>
             <table>
                 <tr>
@@ -57,7 +61,7 @@ function ViewConsents(){
                         <td>{item.remarks}</td>
                         <td>
                             {
-                                item.status==='APPROVED'
+                                item.status==='APPROVED' || item.status==='DELEGATED'
                                 ?<Link to="/viewConsents/viewEHR" state={item}>
                                     <input type="submit" value="View EHR"/>
                                  </Link>

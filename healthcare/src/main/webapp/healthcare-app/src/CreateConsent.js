@@ -1,11 +1,12 @@
 import { useState } from "react";
 import './patientRegistration.css';
-
+import Navbar from './Navbar';
 
 function CreateConsent(){
+    const user = JSON.parse(localStorage.getItem('user'));
     const [consent,setConsent]=useState({
-        hid:"1",
-        healthProfessionalId:"1",
+        hid:user.user.hospitalInformation.hid,
+        healthProfessionalId:user.user.id,
         patientId:"",
         fromDate:"",
         toDate:"",
@@ -17,15 +18,17 @@ function CreateConsent(){
         console.log(JSON.stringify(consent));
         const requestOptions = {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json",
+                "Authorization": "Bearer "+user.jwtToken },
             body: JSON.stringify(consent)
           };
-          fetch("http://df50-119-161-98-68.ngrok.io/consent", requestOptions)
+          fetch("http://f2cb-103-156-19-229.ngrok.io/consent", requestOptions)
             .then(response => response.json())
             .then(res => console.log(res));
     } 
     return(
         <div class="container">
+            <Navbar/>
             <h1>Create Consent</h1>
             <div class="row">
                 <div class="col-25"><label>Patient ID</label></div>
