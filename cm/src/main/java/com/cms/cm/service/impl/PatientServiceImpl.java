@@ -7,6 +7,7 @@ import com.cms.cm.response.PatientRegistrationResponse;
 import com.cms.cm.service.PatientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,6 +17,8 @@ public class PatientServiceImpl implements PatientService {
 
     private final PatientRepository patientRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Override
     public PatientRegistrationResponse register(PatientRegistrationRequest request) {
 
@@ -24,6 +27,8 @@ public class PatientServiceImpl implements PatientService {
                 .age(request.getAge())
                 .gender(request.getGender())
                 .governmentId(request.getGovernmentId())
+                .username(request.getGovernmentId())
+                .password(passwordEncoder.encode(request.getGovernmentId()))
                 .maritalStatus(request.getMaritalStatus())
                 .mobileNum(request.getMobileNum())
                 .build();
@@ -46,6 +51,7 @@ public class PatientServiceImpl implements PatientService {
                 .age(newPatient.getAge())
                 .gender(newPatient.getGender())
                 .email(newPatient.getEmail())
+                .username(newPatient.getUsername())
                 .governmentId(newPatient.getGovernmentId())
                 .fathersName(newPatient.getFathersName())
                 .mothersName(newPatient.getMothersName())

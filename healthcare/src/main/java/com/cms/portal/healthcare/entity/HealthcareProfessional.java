@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "health_professional")
+@Table(name = "healthcare_professional")
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
@@ -39,10 +39,11 @@ public class HealthcareProfessional {
     @Column(name = "username", unique = true, nullable = false)
     private String username;
 
-    @Column(name = "password", unique = true, nullable = true)
+    @Column(name = "password", nullable = true)
+    @JsonIgnore
     private String password;
 
-    @Column(name = "government_id", nullable = false, unique = true)
+    @Column(name = "government_id", nullable = false, unique = true, length = 12)
     private String governmentId;
 
     @Column(name = "degree", nullable = false)
@@ -59,7 +60,7 @@ public class HealthcareProfessional {
     private HospitalInformation hospitalInformation;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "USER_ROLE",
+    @JoinTable(name = "healthcare_professional_role",
             joinColumns = {
                 @JoinColumn(name = "healthcare_professional_id")
             }, inverseJoinColumns = {

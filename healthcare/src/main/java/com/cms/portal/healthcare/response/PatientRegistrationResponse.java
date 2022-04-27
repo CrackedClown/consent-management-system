@@ -21,6 +21,8 @@ public class PatientRegistrationResponse {
 
     private String email;
 
+    private String username;
+
     private String governmentId;
 
     private String fathersName;

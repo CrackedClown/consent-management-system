@@ -1,5 +1,6 @@
 package com.cms.portal.healthcare.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,6 +30,7 @@ public class HospitalInformation {
     private String hospitalAddress;
 
     @OneToMany(mappedBy = "hospitalInformation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<HealthcareProfessional> healthcareProfessionals = new ArrayList<>();
 
 }

@@ -3,6 +3,7 @@ package com.cms.portal.healthcare.configuration;
 import com.cms.portal.healthcare.service.JwtService;
 import com.cms.portal.healthcare.utility.JwtUtil;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwt;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -25,4 +25,11 @@ public class HealthcareConstants {
 
     public static final String API_REGISTER = "/register";
 
+    //Roles
+    public static final String ROLE_ADMIN = "ADMIN";
+
+    public static final String ROLE_DOCTOR = "DOCTOR";
+
+    public static final String ROLE_NURSE = "NURSE";
+
 }

@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,6 +22,8 @@ public class HealthcareProfessionalRegistrationResponse {
 
     private String email;
 
+    private String username;
+
     private String governmentId;
 
     private String degree;
@@ -33,4 +33,6 @@ public class HealthcareProfessionalRegistrationResponse {
     private String mobileNum;
 
     private HospitalInformation hospitalInformation;
+
+    private String role;
 }

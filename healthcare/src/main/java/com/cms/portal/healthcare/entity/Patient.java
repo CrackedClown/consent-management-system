@@ -32,7 +32,7 @@ public class Patient {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "government_id", nullable = false, unique = true)
+    @Column(name = "government_id", nullable = false, unique = true, length = 12)
     private String governmentId;
 
     @Column(name = "fathers_name")

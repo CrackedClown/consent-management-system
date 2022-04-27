@@ -1,7 +1,8 @@
 package com.cms.portal.healthcare.service.impl;
 
 import com.cms.portal.healthcare.entity.HealthcareProfessional;
-import com.cms.portal.healthcare.entity.HospitalInformation;
+import com.cms.portal.healthcare.entity.Role;
+import com.cms.portal.healthcare.enums.RoleEnum;
 import com.cms.portal.healthcare.repository.HealthcareProfessionalRepository;
 import com.cms.portal.healthcare.repository.HospitalInformationRepository;
 import com.cms.portal.healthcare.request.HealthcareProfessionalRegistrationRequest;
@@ -9,10 +10,11 @@ import com.cms.portal.healthcare.response.HealthcareProfessionalRegistrationResp
 import com.cms.portal.healthcare.service.HealthcareProfessionalService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +25,10 @@ public class HealthcareProfessionalServiceImpl implements HealthcareProfessional
 
     private final HospitalInformationRepository hospitalInformationRepository;
 
+    private final PasswordEncoder bCryptPasswordEncoder;
+
     @Override
+    @Transactional
     public HealthcareProfessionalRegistrationResponse register(HealthcareProfessionalRegistrationRequest request) {
 
         HealthcareProfessional newHealthCareProfessional = HealthcareProfessional.builder()
@@ -31,35 +36,38 @@ public class HealthcareProfessionalServiceImpl implements HealthcareProfessional
                 .age(request.getAge())
                 .gender(request.getGender())
                 .email(request.getEmail())
-                .password(request.getPassword())
+                .username(request.getEmail())
+                .password(bCryptPasswordEncoder.encode(request.getGovernmentId()))
                 .governmentId(request.getGovernmentId())
                 .degree(request.getDegree())
                 .department(request.getDepartment())
                 .mobileNum(request.getMobileNum())
-                .hospitalInformation(hospitalInformationRepository.getById(request.getHid()))
+                .hospitalInformation(hospitalInformationRepository.findById(request.getHid()).get())
+                .role(Set.of(Role.builder().name(RoleEnum.valueOf(request.getRole())).build()))
                 .build();
 
         newHealthCareProfessional = healthcareProfessionalRepository.save(newHealthCareProfessional);
 
-        HealthcareProfessionalRegistrationResponse response = HealthcareProfessionalRegistrationResponse.builder()
+        return  HealthcareProfessionalRegistrationResponse.builder()
                 .id(newHealthCareProfessional.getId())
                 .name(newHealthCareProfessional.getName())
                 .age(newHealthCareProfessional.getAge())
                 .gender(newHealthCareProfessional.getGender())
                 .email(newHealthCareProfessional.getEmail())
+                .username(newHealthCareProfessional.getUsername())
                 .governmentId(newHealthCareProfessional.getGovernmentId())
                 .degree(newHealthCareProfessional.getDegree())
                 .department(newHealthCareProfessional.getDepartment())
                 .mobileNum(newHealthCareProfessional.getMobileNum())
                 .hospitalInformation(newHealthCareProfessional.getHospitalInformation())
+                .role(newHealthCareProfessional.getRole().stream().findFirst().get().getName().toString())
                 .build();
 
-        return response;
     }
 
     @Override
     public HealthcareProfessional findById(Long id) {
-        if(healthcareProfessionalRepository.findById(id).isPresent()) {
+        if (healthcareProfessionalRepository.findById(id).isPresent()) {
             return healthcareProfessionalRepository.findById(id).get();
         }
         return null;

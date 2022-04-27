@@ -29,9 +29,6 @@ public class HealthcareProfessionalRegistrationRequest {
     private String email;
 
     @NotNull
-    private String password;
-
-    @NotNull
     private String governmentId;
 
     @NotNull
@@ -42,4 +39,7 @@ public class HealthcareProfessionalRegistrationRequest {
 
     @NotNull
     private String mobileNum;
+
+    @NotNull
+    private String role;
 }
