@@ -22,7 +22,7 @@ function CreateConsent(){
                 "Authorization": "Bearer "+user.jwtToken },
             body: JSON.stringify(consent)
           };
-          fetch("http://f2cb-103-156-19-229.ngrok.io/consent", requestOptions)
+          fetch("http://48b6-119-161-98-68.ngrok.io/consent", requestOptions)
             .then(response => response.json())
             .then(res => console.log(res));
     } 

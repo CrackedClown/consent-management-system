@@ -2,12 +2,15 @@ import { useState,useEffect } from "react";
 import './patientRegistration.css';
 import { Link } from "react-router-dom";
 import Navbar from './Navbar';
+import { format } from 'date-fns';
 
 function ViewConsents(){
     //const [id,setId]=useState({
       //  healthProfessionalId:1,
     //});
+    var now = format(new Date(), 'yyyy-MM-dd');
     const user = JSON.parse(localStorage.getItem('user'));
+    var role = user.user.role[0].name;
     const [consent,setConsent]=useState({
         items:[],
         isDataLoaded:false
@@ -15,6 +18,7 @@ function ViewConsents(){
     useEffect(() => {
         console.log("loaded");
         viewConsents();
+        console.log(role);
     },[]);
     const viewConsents = (e) => {
         const requestOptions = {
@@ -24,7 +28,7 @@ function ViewConsents(){
             "Authorization": "Bearer "+user.jwtToken },
           };
           
-        fetch('http://f2cb-103-156-19-229.ngrok.io/consent/healthcare',requestOptions)
+        fetch('http://48b6-119-161-98-68.ngrok.io/consent/healthcare',requestOptions)
             .then(response => response.json())
             .then(res => setConsent({
                 items:res,
@@ -61,19 +65,25 @@ function ViewConsents(){
                         <td>{item.remarks}</td>
                         <td>
                             {
-                                item.status==='APPROVED' || item.status==='DELEGATED'
-                                ?<Link to="/viewConsents/viewEHR" state={item}>
-                                    <input type="submit" value="View EHR"/>
-                                 </Link>
+                                (item.status==='APPROVED' || item.status==='DELEGATED')
+                                ?
+                                    now<item.validUpto ?
+                                    <Link to="/viewConsents/viewEHR" state={item}>
+                                        <input type="submit" value="View EHR"/>
+                                    </Link>
+                                    :<h5 style={{color:"red"}}>Consent Expired</h5>
                                 :<></>
                             }
                         </td>
                         <td>
                             {
-                                item.status==='APPROVED'
-                                ?<Link to="/viewConsents/delegateConsent" state={item}>
-                                    <input type="submit" value="Delegate Consent"/>
-                                 </Link>
+                                (item.status==='APPROVED' && role==='DOCTOR')
+                                ?
+                                    now<item.validUpto ?
+                                    <Link to="/viewConsents/delegateConsent" state={item}>
+                                        <input type="submit" value="Delegate Consent"/>
+                                    </Link>
+                                    :<h5 style={{color:"red"}}>Consent Expired</h5>
                                 :<></>
                             }
                         </td>
