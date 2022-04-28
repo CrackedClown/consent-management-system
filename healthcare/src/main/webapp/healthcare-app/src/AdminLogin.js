@@ -16,7 +16,7 @@ const required = (value) => {
     );
   }
 };
-const Login = () => {
+const AdminLogin = () => {
   let navigate = useNavigate();
   const form = useRef();
   const checkBtn = useRef();
@@ -40,7 +40,7 @@ const Login = () => {
     if (checkBtn.current.context._errors.length === 0) {
       AuthService.login(username, password).then(
         () => {
-          navigate("/home");
+          navigate("/admin/home");
           window.location.reload();
         },
         (error) => {
@@ -61,7 +61,7 @@ const Login = () => {
   return (
     <div className="col-md-12">
       <div>
-        <ul>
+      <ul>
           <li><Link to="/">Health Professional Login</Link></li>
           <li><Link to="/adminLogin">Admin Login</Link></li>
         </ul>
@@ -69,7 +69,7 @@ const Login = () => {
       <div className="card card-container">
         
         <Form onSubmit={handleLogin} ref={form} style={{border: "3px solid #f1f1f1"}}>
-          <div><h2>Health Professional Login</h2></div>
+          <div><h2>Admin Login</h2></div>
           <div className="form-group">
             <label htmlFor="username">Username</label>
             <Input
@@ -113,4 +113,4 @@ const Login = () => {
     </div>
   );
 };
-export default Login;
+export default AdminLogin;

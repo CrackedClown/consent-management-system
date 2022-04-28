@@ -1,12 +1,6 @@
 import axios from "axios";
-const API_URL = "http://f2cb-103-156-19-229.ngrok.io/";
-const register = (username, email, password) => {
-  return axios.post(API_URL + "signup", {
-    username,
-    email,
-    password,
-  });
-};
+const API_URL = "http://48b6-119-161-98-68.ngrok.io/";
+
 const login = (username, password) => {
   return axios
     .post(API_URL + "authenticate", {
@@ -28,7 +22,6 @@ const getCurrentUser = () => {
   return JSON.parse(localStorage.getItem("user"));
 };
 const AuthService = {
-  register,
   login,
   logout,
   getCurrentUser,
