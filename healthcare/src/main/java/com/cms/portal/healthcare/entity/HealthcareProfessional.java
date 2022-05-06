@@ -1,5 +1,6 @@
 package com.cms.portal.healthcare.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,9 +9,10 @@ import lombok.RequiredArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name = "health_professional")
+@Table(name = "healthcare_professional")
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
@@ -31,13 +33,17 @@ public class HealthcareProfessional {
     @Column(name = "gender", nullable = false)
     private String gender;
 
-    @Column(name = "email", unique = true, nullable = true)
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "username", unique = true, nullable = false)
+    private String username;
+
+    @Column(name = "password", nullable = true)
+    @JsonIgnore
     private String password;
 
-    @Column(name = "government_id", nullable = false, unique = true)
+    @Column(name = "government_id", nullable = false, unique = true, length = 12)
     private String governmentId;
 
     @Column(name = "degree", nullable = false)
@@ -53,7 +59,13 @@ public class HealthcareProfessional {
     @JoinColumn(name = "hid")
     private HospitalInformation hospitalInformation;
 
-    @OneToMany(mappedBy = "healthcareProfessional", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<EHR> ehrList = new ArrayList<>();
-
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "healthcare_professional_role",
+            joinColumns = {
+                @JoinColumn(name = "healthcare_professional_id")
+            }, inverseJoinColumns = {
+                @JoinColumn(name = "role_id")
+            }
+    )
+    private Set<Role> role;
 }

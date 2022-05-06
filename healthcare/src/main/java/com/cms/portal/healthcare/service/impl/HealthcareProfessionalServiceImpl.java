@@ -1,15 +1,22 @@
 package com.cms.portal.healthcare.service.impl;
 
 import com.cms.portal.healthcare.entity.HealthcareProfessional;
-import com.cms.portal.healthcare.entity.HospitalInformation;
+import com.cms.portal.healthcare.enums.RoleEnum;
 import com.cms.portal.healthcare.repository.HealthcareProfessionalRepository;
 import com.cms.portal.healthcare.repository.HospitalInformationRepository;
+import com.cms.portal.healthcare.repository.RoleRepository;
 import com.cms.portal.healthcare.request.HealthcareProfessionalRegistrationRequest;
 import com.cms.portal.healthcare.response.HealthcareProfessionalRegistrationResponse;
 import com.cms.portal.healthcare.service.HealthcareProfessionalService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -20,47 +27,77 @@ public class HealthcareProfessionalServiceImpl implements HealthcareProfessional
 
     private final HospitalInformationRepository hospitalInformationRepository;
 
+    private final PasswordEncoder bCryptPasswordEncoder;
+
+    private final RoleRepository roleRepository;
+
     @Override
+    @Transactional
     public HealthcareProfessionalRegistrationResponse register(HealthcareProfessionalRegistrationRequest request) {
 
-        HealthcareProfessional newHealthCareProfessional = HealthcareProfessional.builder()
+        HealthcareProfessional newHealthcareProfessional = HealthcareProfessional.builder()
                 .name(request.getName())
                 .age(request.getAge())
                 .gender(request.getGender())
                 .email(request.getEmail())
-                .password(request.getPassword())
+                .username(request.getEmail())
+                .password(bCryptPasswordEncoder.encode(request.getMobileNum()))
                 .governmentId(request.getGovernmentId())
                 .degree(request.getDegree())
                 .department(request.getDepartment())
                 .mobileNum(request.getMobileNum())
-                .hospitalInformation(hospitalInformationRepository.getById(request.getHid()))
+                .hospitalInformation(hospitalInformationRepository.findById(request.getHid()).get())
+                .role(Set.of(roleRepository.findByName(RoleEnum.valueOf(request.getRole())).get()))
                 .build();
 
-        newHealthCareProfessional = healthcareProfessionalRepository.save(newHealthCareProfessional);
+        newHealthcareProfessional = healthcareProfessionalRepository.save(newHealthcareProfessional);
 
-        HealthcareProfessionalRegistrationResponse response = HealthcareProfessionalRegistrationResponse.builder()
-                .id(newHealthCareProfessional.getId())
-                .name(newHealthCareProfessional.getName())
-                .age(newHealthCareProfessional.getAge())
-                .gender(newHealthCareProfessional.getGender())
-                .email(newHealthCareProfessional.getEmail())
-                .governmentId(newHealthCareProfessional.getGovernmentId())
-                .degree(newHealthCareProfessional.getDegree())
-                .department(newHealthCareProfessional.getDepartment())
-                .mobileNum(newHealthCareProfessional.getMobileNum())
-                .hospitalInformation(newHealthCareProfessional.getHospitalInformation())
-                .build();
+        return buildHealthcareProfessionalRegistrationResponse(newHealthcareProfessional);
 
-        return response;
     }
 
+    private HealthcareProfessionalRegistrationResponse buildHealthcareProfessionalRegistrationResponse(HealthcareProfessional healthcareProfessional){
+        return HealthcareProfessionalRegistrationResponse.builder()
+                .id(healthcareProfessional.getId())
+                .name(healthcareProfessional.getName())
+                .age(healthcareProfessional.getAge())
+                .gender(healthcareProfessional.getGender())
+                .email(healthcareProfessional.getEmail())
+                .username(healthcareProfessional.getUsername())
+                .governmentId(healthcareProfessional.getGovernmentId())
+                .degree(healthcareProfessional.getDegree())
+                .department(healthcareProfessional.getDepartment())
+                .mobileNum(healthcareProfessional.getMobileNum())
+                .hospitalInformation(healthcareProfessional.getHospitalInformation())
+                .role(healthcareProfessional.getRole().stream().findFirst().get().getName().toString())
+                .build();
+    }
 
 
     @Override
     public HealthcareProfessional findById(Long id) {
-        if(healthcareProfessionalRepository.findById(id).isPresent()) {
+        if (healthcareProfessionalRepository.findById(id).isPresent()) {
             return healthcareProfessionalRepository.findById(id).get();
         }
         return null;
     }
+
+    @Override
+    public void removeHealthcareProfessional(Long healthProfessionalId) {
+        HealthcareProfessional healthcareProfessional = healthcareProfessionalRepository.findById(healthProfessionalId).get();
+        healthcareProfessional.setRole(null);
+        healthcareProfessionalRepository.save(healthcareProfessional);
+        healthcareProfessionalRepository.deleteById(healthProfessionalId);
+    }
+
+    @Override
+    public List<HealthcareProfessionalRegistrationResponse> getHealthcareProfessionalList() {
+        List<HealthcareProfessional> healthcareProfessionalList =  healthcareProfessionalRepository.findAll();
+        List<HealthcareProfessionalRegistrationResponse> healthcareProfessionalRegistrationResponseList = new ArrayList<>();
+        for(HealthcareProfessional healthcareProfessional: healthcareProfessionalList){
+            healthcareProfessionalRegistrationResponseList.add(buildHealthcareProfessionalRegistrationResponse(healthcareProfessional));
+        }
+        return  healthcareProfessionalRegistrationResponseList;
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.cms.cm.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,6 +32,13 @@ public class Patient {
 
     @Column(name = "email")
     private String email;
+
+    @Column(name = "username")
+    private String username;
+
+    @Column(name = "password")
+    @JsonIgnore
+    private String password;
 
     @Column(name = "government_id", nullable = false, unique = true)
     private String governmentId;

@@ -2,7 +2,6 @@ package com.cms.cm.utility;
 
 public class CMConstants {
 
-    public static final String GET_EHR_API_URI = "API_getEHR";
 
     public static final String FROM_DATE = "fromDate";
 
@@ -12,9 +11,16 @@ public class CMConstants {
 
     public static final String DATE_TIME_FORMAT = "yyyy-MM-dd";
 
+    public static final String AUTHORIZATION = "Authorization";
+
+    public static final String BEARER = "Bearer ";
+
+    public static final String JWT_TOKEN = "jwtToken";
 
 
     //API
+    public static final String API_AUTHENTICATE = "/authenticate";
+
     public static final String API_PATIENT = "/patient";
 
     public static final String API_CONSENT = "/consent";
@@ -28,4 +34,6 @@ public class CMConstants {
     public static final String API_REGISTER = "/register";
 
     public static final String API_DELEGATE = "/delegate";
+
+    public static final String API_OUTBOUND_GET_EHR = "API_getEHR";
 }

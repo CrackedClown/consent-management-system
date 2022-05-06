@@ -12,7 +12,15 @@ public class HealthcareConstants {
 
     public static final String HEALTH_PROFESSIONAL_ID = "healthProfessionalId";
 
+    public static final String AUTHORIZATION = "Authorization";
+
+    public static final String BEARER = "Bearer ";
+
+    public static final String JWT_TOKEN = "jwtToken";
+
     //API
+    public static final String API_AUTHENTICATE = "/authenticate";
+
     public static final String API_CONSENT = "/consent";
 
     public static final String API_HEALTHCARE = "/healthcare";
@@ -24,5 +32,7 @@ public class HealthcareConstants {
     public static final String API_EHR =  "/ehr";
 
     public static final String API_REGISTER = "/register";
+
+    public static final String API_REMOVE = "/remove";
 
 }

@@ -7,4 +7,6 @@ public interface PatientService {
 
     PatientRegistrationResponse register(PatientRegistrationRequest patientRegistrationRequest);
 
+    PatientRegistrationResponse getPatientDetails(Long patientId);
+
 }

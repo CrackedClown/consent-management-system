@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -23,11 +24,13 @@ public class EHRController {
     private final EHRService ehrService;
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('DOCTOR','NURSE')")
     public ResponseEntity<AddEHRResponse> addEHR(@RequestBody AddEHRRequest addEHRRequest){
         return new ResponseEntity<>(ehrService.addEHR(addEHRRequest), HttpStatus.CREATED);
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('DOCTOR','NURSE','CM')")
     public ResponseEntity<List<GetEHRResponse>> getEHR(@RequestHeader(HealthcareConstants.FROM_DATE) @DateTimeFormat(pattern = HealthcareConstants.DATE_TIME_FORMAT) LocalDate fromDate,
                                                        @RequestHeader(HealthcareConstants.TO_DATE) @DateTimeFormat(pattern = HealthcareConstants.DATE_TIME_FORMAT) LocalDate toDate,
                                                        @RequestHeader(HealthcareConstants.PATIENT_ID) Long patientId){

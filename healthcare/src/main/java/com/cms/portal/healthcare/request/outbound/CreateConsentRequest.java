@@ -30,6 +30,9 @@ public class CreateConsentRequest {
     private LocalDate toDate;
 
     @NotNull
+    private String remarks;
+
+    @NotNull
     private LocalDate validUpto;
 
 }
