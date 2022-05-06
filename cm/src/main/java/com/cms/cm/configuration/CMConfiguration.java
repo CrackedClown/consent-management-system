@@ -15,11 +15,5 @@ public class CMConfiguration {
         return new RestTemplate();
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
-
-
 }
 

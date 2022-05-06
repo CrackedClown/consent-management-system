@@ -3,15 +3,23 @@ package com.cms.portal.healthcare.service.impl;
 import com.cms.portal.healthcare.entity.EHR;
 import com.cms.portal.healthcare.repository.EHRRepository;
 import com.cms.portal.healthcare.request.AddEHRRequest;
+import com.cms.portal.healthcare.request.JwtRequest;
 import com.cms.portal.healthcare.request.outbound.EHRHistoryRequest;
 import com.cms.portal.healthcare.response.AddEHRResponse;
 import com.cms.portal.healthcare.response.GetEHRResponse;
+import com.cms.portal.healthcare.response.PatientRegistrationResponse;
 import com.cms.portal.healthcare.response.inbound.EHRHistoryResponse;
 import com.cms.portal.healthcare.service.EHRService;
 import com.cms.portal.healthcare.service.HealthcareProfessionalService;
+import com.cms.portal.healthcare.utility.HealthcareConstants;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -33,6 +41,23 @@ public class EHRServiceImpl implements EHRService {
 
     @Value("${url.ehr.add_history}")
     private String addEHRHistoryUrl;
+
+    @Value("${url.cm.get.token}")
+    private String getTokenUrl;
+
+    @Value("${cm.username}")
+    private String consentManagerUsername;
+
+    @Value("${cm.password}")
+    private String consentManagerPassword;
+
+    private String getToken(){
+        JwtRequest request = new JwtRequest();
+        request.setUsername(consentManagerUsername);
+        request.setPassword(consentManagerPassword);
+        JsonNode response = restTemplate.postForObject(getTokenUrl, request, JsonNode.class);
+        return (HealthcareConstants.BEARER.concat(response.get(HealthcareConstants.JWT_TOKEN).asText()));
+    }
 
     @Override
     @Transactional
@@ -68,7 +93,11 @@ public class EHRServiceImpl implements EHRService {
                 .consultationTime(ehr.getConsultationTime())
                 .build();
 
-        restTemplate.postForObject(addEHRHistoryUrl, request, EHRHistoryResponse.class);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HealthcareConstants.AUTHORIZATION, getToken());
+        HttpEntity httpEntity = new HttpEntity(request, headers);
+        restTemplate.exchange(addEHRHistoryUrl, HttpMethod.POST, httpEntity, String.class);
+
     }
 
     @Override

@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -23,12 +24,14 @@ public class EHRController {
     private final EHRHistoryService ehrHistoryService;
 
     @PostMapping(CMConstants.API_HISTORY)
+    @PreAuthorize("hasRole('HEALTHCARE_PORTAL')")
     public ResponseEntity<AddEHRHistoryResponse> addEHRHistory(@RequestBody AddEHRHistoryRequest addEhrHistoryRequest){
         AddEHRHistoryResponse response = ehrHistoryService.addEHRHistory(addEhrHistoryRequest);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('PATIENT_PORTAL')")
     public ResponseEntity<List<GetEHRResponse>> getEHR(@RequestHeader(CMConstants.FROM_DATE) @DateTimeFormat(pattern = CMConstants.DATE_TIME_FORMAT) LocalDate fromDate,
                                                        @RequestHeader(CMConstants.TO_DATE) @DateTimeFormat(pattern = CMConstants.DATE_TIME_FORMAT) LocalDate toDate,
                                                        @RequestHeader(CMConstants.PATIENT_ID) Long patientId){

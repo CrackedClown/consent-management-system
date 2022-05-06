@@ -12,8 +12,16 @@ public class PatientConstants {
 
     public static final String HEALTH_PROFESSIONAL_ID = "healthProfessionalId";
 
+    public static final String AUTHORIZATION = "Authorization";
+
+    public static final String BEARER = "Bearer ";
+
+    public static final String JWT_TOKEN = "jwtToken";
+
 
     //API
+    public static final String API_AUTHENTICATE = "/authenticate";
+
     public static final String API_PATIENT = "/patient";
 
     public static final String API_CONSENT = "/consent";

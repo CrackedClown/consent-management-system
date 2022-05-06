@@ -27,7 +27,7 @@ public class FileUtils {
         JsonNode jsonNode = objectMapper.readValue(new File(hospitalInformationJSONFilePath), JsonNode.class);
         List<String> uriList = new ArrayList<>();
         for(Long id : hospitalIds){
-            String data = jsonNode.get(id.toString()).get(uri).asText() + ", " + jsonNode.get(id.toString()).get(CMConstants.TOKEN).asText();
+            String data = jsonNode.get(id.toString()).get(uri).asText();
             uriList.add(data);
         }
         return uriList;

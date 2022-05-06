@@ -1,14 +1,11 @@
 {
   "1" : {
-    "API_getEHR" : "http://localhost:8080/ehr",
-    "token": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbSIsImV4cCI6MTY1MTg5MTAyNSwiaWF0IjoxNjUxODU1MDI1fQ.Q9YAMWQiOyKbUkCpmuj__urxgqVYE4HQucKtmN8MxOPDsGAY_XNruBkA9qGEzz-Q-ZT6lsHK-F58Sjc_eMx4KA"
+    "API_getEHR" : "http://localhost:8080/ehr"
   },
   "2" : {
-    "API_getEHR" : "http://localhost:8080/ehr",
-    "token": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbSIsImV4cCI6MTY1MTg5MTAyNSwiaWF0IjoxNjUxODU1MDI1fQ.Q9YAMWQiOyKbUkCpmuj__urxgqVYE4HQucKtmN8MxOPDsGAY_XNruBkA9qGEzz-Q-ZT6lsHK-F58Sjc_eMx4KA"
+    "API_getEHR" : "http://localhost:8080/ehr"
   },
   "3" : {
-    "API_getEHR" : "http://localhost:8080/ehr",
-    "token": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbSIsImV4cCI6MTY1MTg5MTAyNSwiaWF0IjoxNjUxODU1MDI1fQ.Q9YAMWQiOyKbUkCpmuj__urxgqVYE4HQucKtmN8MxOPDsGAY_XNruBkA9qGEzz-Q-ZT6lsHK-F58Sjc_eMx4KA"
+    "API_getEHR" : "http://localhost:8080/ehr"
   }
 }

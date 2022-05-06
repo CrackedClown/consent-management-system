@@ -1,11 +1,9 @@
-package com.cms.portal.healthcare.configuration;
+package com.cms.cm.configuration;
 
-import com.cms.portal.healthcare.service.JwtService;
-import com.cms.portal.healthcare.utility.HealthcareConstants;
-import com.cms.portal.healthcare.utility.JwtUtil;
+import com.cms.cm.service.JwtService;
+import com.cms.cm.utility.CMConstants;
+import com.cms.cm.utility.JwtUtil;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwt;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,7 +13,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -36,27 +33,27 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        final String header = request.getHeader(HealthcareConstants.AUTHORIZATION);
+        final String header = request.getHeader(CMConstants.AUTHORIZATION);
 
         String jwtToken = null;
         String username = null;
-        if(header != null && header.startsWith(HealthcareConstants.BEARER)){
+        if (header != null && header.startsWith(CMConstants.BEARER)) {
             jwtToken = header.substring(7);
             try {
                 username = jwtUtil.getUsernameFromToken(jwtToken);
-            } catch (IllegalArgumentException e){
+            } catch (IllegalArgumentException e) {
                 log.error("Unable to get JWT token!");
-            } catch (ExpiredJwtException e){
+            } catch (ExpiredJwtException e) {
                 log.error("JWT token is expired!");
             }
         } else {
             log.error("JWT token does not start with Bearer!");
         }
 
-        if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = jwtService.loadUserByUsername(username);
 
-            if(jwtUtil.validateToken(jwtToken, userDetails)) {
+            if (jwtUtil.validateToken(jwtToken, userDetails)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails,
                         null,
                         userDetails.getAuthorities());

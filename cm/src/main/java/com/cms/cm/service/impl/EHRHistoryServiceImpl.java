@@ -3,13 +3,16 @@ package com.cms.cm.service.impl;
 import com.cms.cm.entity.EHRHistory;
 import com.cms.cm.repository.EHRHistoryRepository;
 import com.cms.cm.request.AddEHRHistoryRequest;
+import com.cms.cm.request.JwtRequest;
 import com.cms.cm.response.AddEHRHistoryResponse;
 import com.cms.cm.response.GetEHRResponse;
 import com.cms.cm.service.EHRHistoryService;
 import com.cms.cm.utility.CMConstants;
 import com.cms.cm.utility.FileUtils;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -31,6 +34,23 @@ public class EHRHistoryServiceImpl implements EHRHistoryService {
     private final FileUtils fileUtils;
 
     private final RestTemplate restTemplate;
+
+    @Value("${url.healthcare.get.token}")
+    private String getHealthcareTokenUrl;
+
+    @Value("${services.username}")
+    private String username;
+
+    @Value("${services.password}")
+    private String password;
+
+    private String getToken(String url){
+        JwtRequest request = new JwtRequest();
+        request.setUsername(username);
+        request.setPassword(password);
+        JsonNode response = restTemplate.postForObject(url, request, JsonNode.class);
+        return (CMConstants.BEARER.concat(response.get(CMConstants.JWT_TOKEN).asText()));
+    }
 
     @Override
     public AddEHRHistoryResponse addEHRHistory(AddEHRHistoryRequest addEhrHistoryRequest){
@@ -56,20 +76,18 @@ public class EHRHistoryServiceImpl implements EHRHistoryService {
     public List<GetEHRResponse> getEHR(Long patientId, LocalDate fromDate, LocalDate toDate) {
         List<Long> hospitalIds = ehrHistoryRepository.findDistinctHidByPatientIdAndConsultationTimeBetween(patientId, fromDate, toDate);
         try {
-            List<String> apiDataList = fileUtils.getApiData(hospitalIds, CMConstants.GET_EHR_API_URI);
+            List<String> apiDataList = fileUtils.getApiData(hospitalIds, CMConstants.API_OUTBOUND_GET_EHR);
             List<GetEHRResponse> response = new ArrayList<>();
-            for(String apiData: apiDataList){
-                String uri = apiData.split(", ")[0];
-                String token = apiData.split(", ")[1];
+            for(String uri: apiDataList){
                 HttpHeaders headers = new HttpHeaders();
                 headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
                 headers.setContentType(MediaType.APPLICATION_JSON);
-                headers.set(CMConstants.AUTHORIZATION, token);
+                headers.set(CMConstants.AUTHORIZATION, getToken(getHealthcareTokenUrl));
                 headers.set(CMConstants.PATIENT_ID, patientId.toString());
                 headers.set(CMConstants.FROM_DATE, fromDate.toString());
                 headers.set(CMConstants.TO_DATE, toDate.toString());
                 HttpEntity entity = new HttpEntity(headers);
-                ResponseEntity<List<GetEHRResponse>> ehr = restTemplate.exchange(uri, HttpMethod.GET, entity,  new ParameterizedTypeReference<List<GetEHRResponse>>(){});
+                ResponseEntity<List<GetEHRResponse>> ehr = restTemplate.exchange(uri, HttpMethod.GET, entity, new ParameterizedTypeReference<List<GetEHRResponse>>(){});
                 response.addAll(ehr.getBody());
             }
             return response;

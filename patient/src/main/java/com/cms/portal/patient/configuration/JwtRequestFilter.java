@@ -2,6 +2,7 @@ package com.cms.portal.patient.configuration;
 
 import com.cms.portal.patient.service.JwtService;
 import com.cms.portal.patient.util.JwtUtil;
+import com.cms.portal.patient.util.PatientConstants;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +33,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        final String header = request.getHeader("Authorization");
+        final String header = request.getHeader(PatientConstants.AUTHORIZATION);
 
         String jwtToken = null;
         String username = null;
-        if (header != null && header.startsWith("Bearer ")) {
+        if (header != null && header.startsWith(PatientConstants.BEARER)) {
             jwtToken = header.substring(7);
             try {
                 username = jwtUtil.getUsernameFromToken(jwtToken);

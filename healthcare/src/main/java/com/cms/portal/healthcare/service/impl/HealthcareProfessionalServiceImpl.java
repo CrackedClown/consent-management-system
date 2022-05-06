@@ -41,7 +41,7 @@ public class HealthcareProfessionalServiceImpl implements HealthcareProfessional
                 .gender(request.getGender())
                 .email(request.getEmail())
                 .username(request.getEmail())
-                .password(bCryptPasswordEncoder.encode(request.getGovernmentId()))
+                .password(bCryptPasswordEncoder.encode(request.getMobileNum()))
                 .governmentId(request.getGovernmentId())
                 .degree(request.getDegree())
                 .department(request.getDepartment())
