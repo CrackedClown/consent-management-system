@@ -17,6 +17,7 @@ import AdminHome from './AdminHome';
 import AddDoctor from './AddDoctor';
 import RemoveDoctor from './RemoveDoctor';
 import PrivateRoute from './PrivateRoute';
+import HealthProfessionalDetails from './HealthProfessionalDetails';
 function App() {
     return (
       <>
@@ -35,6 +36,9 @@ function App() {
             </Route>
             <Route exact path="/admin/removeDoctor" element={<PrivateRoute/>} >
               <Route exact path="/admin/removeDoctor" element={<RemoveDoctor/>} />
+            </Route>
+            <Route exact path="/admin/details" element={<PrivateRoute/>} >
+              <Route exact path="/admin/details" element={<HealthProfessionalDetails/>} />
             </Route>
             <Route exact path="/addPatientEHR" element={<PrivateRoute/>} >
               <Route exact path="/addPatientEHR" element={<AddPatientEHR/>} />

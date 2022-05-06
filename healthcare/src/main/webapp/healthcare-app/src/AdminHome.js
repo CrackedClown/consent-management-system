@@ -14,6 +14,9 @@ const AdminHome = () => {
         <li>
           <Link to="/admin/removeDoctor">Remove Health Professional</Link>
         </li>
+        <li>
+          <Link to="/admin/details">Health Professional User Details</Link>
+        </li>
       </ul>
     </div>
   );
