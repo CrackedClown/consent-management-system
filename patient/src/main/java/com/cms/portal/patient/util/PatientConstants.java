@@ -25,6 +25,4 @@ public class PatientConstants {
     public static final String API_HISTORY = "/history";
 
     public static final String API_REGISTER = "/register";
-
-    public static final String API_DELEGATE = "/delegate";
 }

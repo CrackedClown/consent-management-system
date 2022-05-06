@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.client.RestTemplate;
 
 @Service
@@ -29,27 +28,29 @@ public class PatientServiceImpl implements PatientService {
     @Transactional
     public PatientRegistrationResponse register(PatientRegistrationRequest request) {
 
-         Patient newPatient = Patient.builder()
-                .patientName(request.getPatientName())
-                .age(request.getAge())
-                .gender(request.getGender())
-                .governmentId(request.getGovernmentId())
-                .maritalStatus(request.getMaritalStatus())
-                .mobileNum(request.getMobileNum())
+        PatientRegistrationResponse response = restTemplate.postForObject(patientRegistrationUrl, request, PatientRegistrationResponse.class);
+
+        Patient newPatient = Patient.builder()
+                .patientName(response.getPatientName())
+                .age(response.getAge())
+                .gender(response.getGender())
+                .governmentId(response.getGovernmentId())
+                .maritalStatus(response.getMaritalStatus())
+                .mobileNum(response.getMobileNum())
                 .build();
 
-        if(null != request.getEmail()){
-            newPatient.setEmail(request.getEmail());
+        if (null != response.getEmail()) {
+            newPatient.setEmail(response.getEmail());
         }
-        if(null != request.getFathersName()){
-            newPatient.setFathersName(request.getFathersName());
+        if (null != response.getFathersName()) {
+            newPatient.setFathersName(response.getFathersName());
         }
-        if(null != request.getMothersName()){
-            newPatient.setMothersName(request.getMothersName());
+        if (null != response.getMothersName()) {
+            newPatient.setMothersName(response.getMothersName());
         }
 
         patientRepository.save(newPatient);
 
-        return restTemplate.postForObject(patientRegistrationUrl, request, PatientRegistrationResponse.class);
+        return response;
     }
 }

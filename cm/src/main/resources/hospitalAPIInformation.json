@@ -1,14 +1,14 @@
 {
   "1" : {
     "API_getEHR" : "http://localhost:8080/ehr",
-    "token": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDb25zZW50LU1hbmFnZXJAZW1haWwuY29tIiwiZXhwIjoxNjUxMTI0NTA2LCJpYXQiOjE2NTEwODg1MDZ9.DtIzfi6mPlLLgQVaDdbVH6M5Eu_61Tgri1Fn7HUI88nVTSm42j8e6OtRvYNEHcbJzykQ1KvJfpXKFcCJcvH1KQ"
+    "token": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbSIsImV4cCI6MTY1MTg5MTAyNSwiaWF0IjoxNjUxODU1MDI1fQ.Q9YAMWQiOyKbUkCpmuj__urxgqVYE4HQucKtmN8MxOPDsGAY_XNruBkA9qGEzz-Q-ZT6lsHK-F58Sjc_eMx4KA"
   },
   "2" : {
     "API_getEHR" : "http://localhost:8080/ehr",
-    "token": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDb25zZW50LU1hbmFnZXJAZW1haWwuY29tIiwiZXhwIjoxNjUxMTI0NTA2LCJpYXQiOjE2NTEwODg1MDZ9.DtIzfi6mPlLLgQVaDdbVH6M5Eu_61Tgri1Fn7HUI88nVTSm42j8e6OtRvYNEHcbJzykQ1KvJfpXKFcCJcvH1KQ"
+    "token": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbSIsImV4cCI6MTY1MTg5MTAyNSwiaWF0IjoxNjUxODU1MDI1fQ.Q9YAMWQiOyKbUkCpmuj__urxgqVYE4HQucKtmN8MxOPDsGAY_XNruBkA9qGEzz-Q-ZT6lsHK-F58Sjc_eMx4KA"
   },
   "3" : {
     "API_getEHR" : "http://localhost:8080/ehr",
-    "token": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDb25zZW50LU1hbmFnZXJAZW1haWwuY29tIiwiZXhwIjoxNjUxMTI0NTA2LCJpYXQiOjE2NTEwODg1MDZ9.DtIzfi6mPlLLgQVaDdbVH6M5Eu_61Tgri1Fn7HUI88nVTSm42j8e6OtRvYNEHcbJzykQ1KvJfpXKFcCJcvH1KQ"
+    "token": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbSIsImV4cCI6MTY1MTg5MTAyNSwiaWF0IjoxNjUxODU1MDI1fQ.Q9YAMWQiOyKbUkCpmuj__urxgqVYE4HQucKtmN8MxOPDsGAY_XNruBkA9qGEzz-Q-ZT6lsHK-F58Sjc_eMx4KA"
   }
 }

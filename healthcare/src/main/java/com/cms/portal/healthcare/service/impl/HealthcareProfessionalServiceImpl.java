@@ -1,7 +1,6 @@
 package com.cms.portal.healthcare.service.impl;
 
 import com.cms.portal.healthcare.entity.HealthcareProfessional;
-import com.cms.portal.healthcare.entity.Role;
 import com.cms.portal.healthcare.enums.RoleEnum;
 import com.cms.portal.healthcare.repository.HealthcareProfessionalRepository;
 import com.cms.portal.healthcare.repository.HospitalInformationRepository;
@@ -15,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -34,7 +35,7 @@ public class HealthcareProfessionalServiceImpl implements HealthcareProfessional
     @Transactional
     public HealthcareProfessionalRegistrationResponse register(HealthcareProfessionalRegistrationRequest request) {
 
-        HealthcareProfessional newHealthCareProfessional = HealthcareProfessional.builder()
+        HealthcareProfessional newHealthcareProfessional = HealthcareProfessional.builder()
                 .name(request.getName())
                 .age(request.getAge())
                 .gender(request.getGender())
@@ -49,24 +50,29 @@ public class HealthcareProfessionalServiceImpl implements HealthcareProfessional
                 .role(Set.of(roleRepository.findByName(RoleEnum.valueOf(request.getRole())).get()))
                 .build();
 
-        newHealthCareProfessional = healthcareProfessionalRepository.save(newHealthCareProfessional);
+        newHealthcareProfessional = healthcareProfessionalRepository.save(newHealthcareProfessional);
 
-        return  HealthcareProfessionalRegistrationResponse.builder()
-                .id(newHealthCareProfessional.getId())
-                .name(newHealthCareProfessional.getName())
-                .age(newHealthCareProfessional.getAge())
-                .gender(newHealthCareProfessional.getGender())
-                .email(newHealthCareProfessional.getEmail())
-                .username(newHealthCareProfessional.getUsername())
-                .governmentId(newHealthCareProfessional.getGovernmentId())
-                .degree(newHealthCareProfessional.getDegree())
-                .department(newHealthCareProfessional.getDepartment())
-                .mobileNum(newHealthCareProfessional.getMobileNum())
-                .hospitalInformation(newHealthCareProfessional.getHospitalInformation())
-                .role(newHealthCareProfessional.getRole().stream().findFirst().get().getName().toString())
-                .build();
+        return buildHealthcareProfessionalRegistrationResponse(newHealthcareProfessional);
 
     }
+
+    private HealthcareProfessionalRegistrationResponse buildHealthcareProfessionalRegistrationResponse(HealthcareProfessional healthcareProfessional){
+        return HealthcareProfessionalRegistrationResponse.builder()
+                .id(healthcareProfessional.getId())
+                .name(healthcareProfessional.getName())
+                .age(healthcareProfessional.getAge())
+                .gender(healthcareProfessional.getGender())
+                .email(healthcareProfessional.getEmail())
+                .username(healthcareProfessional.getUsername())
+                .governmentId(healthcareProfessional.getGovernmentId())
+                .degree(healthcareProfessional.getDegree())
+                .department(healthcareProfessional.getDepartment())
+                .mobileNum(healthcareProfessional.getMobileNum())
+                .hospitalInformation(healthcareProfessional.getHospitalInformation())
+                .role(healthcareProfessional.getRole().stream().findFirst().get().getName().toString())
+                .build();
+    }
+
 
     @Override
     public HealthcareProfessional findById(Long id) {
@@ -74,6 +80,24 @@ public class HealthcareProfessionalServiceImpl implements HealthcareProfessional
             return healthcareProfessionalRepository.findById(id).get();
         }
         return null;
+    }
+
+    @Override
+    public void removeHealthcareProfessional(Long healthProfessionalId) {
+        HealthcareProfessional healthcareProfessional = healthcareProfessionalRepository.findById(healthProfessionalId).get();
+        healthcareProfessional.setRole(null);
+        healthcareProfessionalRepository.save(healthcareProfessional);
+        healthcareProfessionalRepository.deleteById(healthProfessionalId);
+    }
+
+    @Override
+    public List<HealthcareProfessionalRegistrationResponse> getHealthcareProfessionalList() {
+        List<HealthcareProfessional> healthcareProfessionalList =  healthcareProfessionalRepository.findAll();
+        List<HealthcareProfessionalRegistrationResponse> healthcareProfessionalRegistrationResponseList = new ArrayList<>();
+        for(HealthcareProfessional healthcareProfessional: healthcareProfessionalList){
+            healthcareProfessionalRegistrationResponseList.add(buildHealthcareProfessionalRegistrationResponse(healthcareProfessional));
+        }
+        return  healthcareProfessionalRegistrationResponseList;
     }
 
 }

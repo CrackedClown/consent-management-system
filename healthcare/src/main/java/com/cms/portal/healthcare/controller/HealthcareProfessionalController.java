@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(HealthcareConstants.API_HEALTHCARE)
 @RequiredArgsConstructor
@@ -23,5 +25,19 @@ public class HealthcareProfessionalController {
     public ResponseEntity<HealthcareProfessionalRegistrationResponse> register(@RequestBody HealthcareProfessionalRegistrationRequest request){
         HealthcareProfessionalRegistrationResponse response = healthcareProfessionalService.register(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<HealthcareProfessionalRegistrationResponse>> getHealthcareProfessionalList(){
+        List<HealthcareProfessionalRegistrationResponse> response = healthcareProfessionalService.getHealthcareProfessionalList();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping(HealthcareConstants.API_REMOVE)
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> removeHealthcareProfessional(@RequestHeader(HealthcareConstants.HEALTH_PROFESSIONAL_ID) Long healthProfessionalId){
+        healthcareProfessionalService.removeHealthcareProfessional(healthProfessionalId);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }

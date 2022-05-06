@@ -1,4 +1,4 @@
-package com.cms.portal.healthcare.utility;
+package com.cms.portal.patient.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

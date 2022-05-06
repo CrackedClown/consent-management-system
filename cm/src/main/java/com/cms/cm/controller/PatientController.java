@@ -23,4 +23,10 @@ public class PatientController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    @GetMapping
+    public ResponseEntity<PatientRegistrationResponse> getPatientDetails(@RequestHeader Long patientId){
+        PatientRegistrationResponse response = patientService.getPatientDetails(patientId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 }

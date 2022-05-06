@@ -26,39 +26,42 @@ public class PatientServiceImpl implements PatientService {
                 .patientName(request.getPatientName())
                 .age(request.getAge())
                 .gender(request.getGender())
-                .governmentId(request.getGovernmentId())
+                .email(request.getEmail())
                 .username(request.getGovernmentId())
-                .password(passwordEncoder.encode(request.getGovernmentId()))
+                .password(passwordEncoder.encode(request.getMobileNum()))
+                .governmentId(request.getGovernmentId())
+                .fathersName(request.getFathersName())
+                .mothersName(request.getMothersName())
                 .maritalStatus(request.getMaritalStatus())
                 .mobileNum(request.getMobileNum())
                 .build();
 
-        if(null != request.getEmail()){
-            newPatient.setEmail(request.getEmail());
-        }
-        if(null != request.getFathersName()){
-            newPatient.setFathersName(request.getFathersName());
-        }
-        if(null != request.getMothersName()){
-            newPatient.setMothersName(request.getMothersName());
-        }
 
         newPatient = patientRepository.save(newPatient);
 
-        PatientRegistrationResponse response = PatientRegistrationResponse.builder()
-                .id(newPatient.getId())
-                .patientName(newPatient.getPatientName())
-                .age(newPatient.getAge())
-                .gender(newPatient.getGender())
-                .email(newPatient.getEmail())
-                .username(newPatient.getUsername())
-                .governmentId(newPatient.getGovernmentId())
-                .fathersName(newPatient.getFathersName())
-                .mothersName(newPatient.getMothersName())
-                .maritalStatus(newPatient.getMaritalStatus())
-                .mobileNum(newPatient.getMobileNum())
-                .build();
+        return buildRegistrationResponse(newPatient);
 
-        return response;
+    }
+
+    private PatientRegistrationResponse buildRegistrationResponse(Patient patient){
+        return PatientRegistrationResponse.builder()
+                .id(patient.getId())
+                .patientName(patient.getPatientName())
+                .age(patient.getAge())
+                .gender(patient.getGender())
+                .email(patient.getEmail())
+                .username(patient.getUsername())
+                .governmentId(patient.getGovernmentId())
+                .fathersName(patient.getFathersName())
+                .mothersName(patient.getMothersName())
+                .maritalStatus(patient.getMaritalStatus())
+                .mobileNum(patient.getMobileNum())
+                .build();
+    }
+
+    @Override
+    public PatientRegistrationResponse getPatientDetails(Long patientId) {
+        Patient patient = patientRepository.findById(patientId).get();
+        return buildRegistrationResponse(patient);
     }
 }

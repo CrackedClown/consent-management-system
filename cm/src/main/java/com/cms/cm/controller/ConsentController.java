@@ -33,7 +33,7 @@ public class ConsentController {
     }
 
     @PutMapping
-    public ResponseEntity<ConsentResponse> updateConsentRequest(@RequestBody UpdateConsentRequest updateConsentRequest){
+    public ResponseEntity<ConsentResponse> updateConsent(@RequestBody UpdateConsentRequest updateConsentRequest){
         ConsentResponse response = consentService.updateConsentRequest(updateConsentRequest);
         return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
     }

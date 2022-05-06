@@ -29,7 +29,7 @@ public class ConsentController {
 
     @GetMapping(HealthcareConstants.API_HEALTHCARE)
     @PreAuthorize("hasAnyRole('DOCTOR','NURSE')")
-    public ResponseEntity<List<ConsentResponse>> getConsentsByHealthProfessionalId(@RequestHeader("healthProfessionalId") Long healthProfessionalId){
+    public ResponseEntity<List<ConsentResponse>> getConsentsByHealthProfessionalId(@RequestHeader(HealthcareConstants.HEALTH_PROFESSIONAL_ID) Long healthProfessionalId){
         List<ConsentResponse> response = consentService.getConsentsByHealthProfessionalId(healthProfessionalId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

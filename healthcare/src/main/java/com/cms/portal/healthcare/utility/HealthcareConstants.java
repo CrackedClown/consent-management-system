@@ -25,4 +25,6 @@ public class HealthcareConstants {
 
     public static final String API_REGISTER = "/register";
 
+    public static final String API_REMOVE = "/remove";
+
 }
