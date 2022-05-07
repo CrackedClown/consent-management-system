@@ -91,7 +91,7 @@ public class ConsentServiceImpl implements ConsentService {
     public ConsentResponse delegateConsent(UpdateConsentRequest updateConsentRequest) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HealthcareConstants.AUTHORIZATION, getToken());
-        HttpEntity httpEntity = new HttpEntity(updateConsentRequest);
+        HttpEntity httpEntity = new HttpEntity(updateConsentRequest, headers);
         return restTemplate.exchange(delegateConsentUrl, HttpMethod.PUT, httpEntity, ConsentResponse.class).getBody();
     }
 

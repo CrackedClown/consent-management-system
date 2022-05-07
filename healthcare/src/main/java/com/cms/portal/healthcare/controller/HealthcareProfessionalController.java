@@ -36,8 +36,8 @@ public class HealthcareProfessionalController {
 
     @DeleteMapping(HealthcareConstants.API_REMOVE)
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> removeHealthcareProfessional(@RequestHeader(HealthcareConstants.HEALTH_PROFESSIONAL_ID) Long healthProfessionalId){
-        healthcareProfessionalService.removeHealthcareProfessional(healthProfessionalId);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    public ResponseEntity<HealthcareProfessionalRegistrationResponse> removeHealthcareProfessional(@RequestHeader(HealthcareConstants.HEALTH_PROFESSIONAL_ID) Long healthProfessionalId){
+        HealthcareProfessionalRegistrationResponse response = healthcareProfessionalService.removeHealthcareProfessional(healthProfessionalId);
+        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
 }

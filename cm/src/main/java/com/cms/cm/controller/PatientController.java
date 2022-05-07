@@ -26,7 +26,7 @@ public class PatientController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('HEALTHCARE_PORTAL')")
+    @PreAuthorize("hasRole('PATIENT_PORTAL')")
     public ResponseEntity<PatientRegistrationResponse> getPatientDetails(@RequestHeader Long patientId){
         PatientRegistrationResponse response = patientService.getPatientDetails(patientId);
         return new ResponseEntity<>(response, HttpStatus.OK);

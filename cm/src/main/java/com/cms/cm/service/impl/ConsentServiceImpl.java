@@ -67,16 +67,11 @@ public class ConsentServiceImpl implements ConsentService {
 
     @Override
     public ConsentResponse updateConsentRequest(UpdateConsentRequest updateConsentRequest) {
-        Consent consent = Consent.builder()
-                .id(updateConsentRequest.getId())
-                .validUpto(updateConsentRequest.getValidUpto())
-                .status(ConsentStatus.valueOf(updateConsentRequest.getConsentStatus()))
-                .build();
-
+        Consent consent = consentRepository.getById(updateConsentRequest.getId());
+        consent.setValidUpto(updateConsentRequest.getValidUpto());
+        consent.setStatus(ConsentStatus.valueOf(updateConsentRequest.getConsentStatus()));
         consent = consentRepository.save(consent);
-
         return buildConsentResponse(consent);
-
     }
 
     @Override

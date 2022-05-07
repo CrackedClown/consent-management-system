@@ -27,9 +27,9 @@ public class PatientController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('CM','PATIENT')")
-    public ResponseEntity<?> addPatientLoginDetails(@RequestBody AddPatientDetailsRequest request) {
+    public ResponseEntity<String> addPatientLoginDetails(@RequestBody AddPatientDetailsRequest request) {
         patientService.addPatientLoginDetails(request);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>("Patient credentials created", HttpStatus.CREATED);
     }
 
 }
