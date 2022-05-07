@@ -62,7 +62,9 @@ public class ConsentServiceImpl implements ConsentService {
 
     @Override
     public ConsentResponse updateConsent(UpdateConsentRequest updateConsentRequest) {
-        HttpEntity httpEntity = new HttpEntity(updateConsentRequest);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(PatientConstants.AUTHORIZATION, getToken());
+        HttpEntity httpEntity = new HttpEntity(updateConsentRequest, headers);
         return restTemplate.exchange(updateConsentUrl, HttpMethod.PUT, httpEntity, ConsentResponse.class).getBody();
     }
 }

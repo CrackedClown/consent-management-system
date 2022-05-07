@@ -83,11 +83,13 @@ public class HealthcareProfessionalServiceImpl implements HealthcareProfessional
     }
 
     @Override
-    public void removeHealthcareProfessional(Long healthProfessionalId) {
+    public HealthcareProfessionalRegistrationResponse removeHealthcareProfessional(Long healthProfessionalId) {
         HealthcareProfessional healthcareProfessional = healthcareProfessionalRepository.findById(healthProfessionalId).get();
+        HealthcareProfessionalRegistrationResponse response = buildHealthcareProfessionalRegistrationResponse(healthcareProfessional);
         healthcareProfessional.setRole(null);
         healthcareProfessionalRepository.save(healthcareProfessional);
         healthcareProfessionalRepository.deleteById(healthProfessionalId);
+        return response;
     }
 
     @Override

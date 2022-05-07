@@ -30,10 +30,10 @@ public class PatientServiceImpl implements PatientService {
 
     private final RestTemplate restTemplate;
 
-    @Value("{cm.patient.addPatientAsUser}")
+    @Value("${url.patient.addPatientAsUser}")
     private String addPatientDetailsUrl;
 
-    @Value("${url.healthcare.get.token}")
+    @Value("${url.patient.get.token}")
     private String getPatientTokenUrl;
 
     @Value("${services.username}")

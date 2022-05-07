@@ -13,7 +13,7 @@ public interface HealthcareProfessionalService {
 
     HealthcareProfessional findById(Long id);
 
-    void removeHealthcareProfessional(Long healthcareProfessionalId);
+    HealthcareProfessionalRegistrationResponse removeHealthcareProfessional(Long healthcareProfessionalId);
 
     List<HealthcareProfessionalRegistrationResponse> getHealthcareProfessionalList();
 

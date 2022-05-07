@@ -1,7 +1,9 @@
 package com.cms.portal.patient.service.impl;
 
 import com.cms.portal.patient.entity.Patient;
+import com.cms.portal.patient.enums.RoleEnum;
 import com.cms.portal.patient.repository.PatientRepository;
+import com.cms.portal.patient.repository.RoleRepository;
 import com.cms.portal.patient.request.AddPatientDetailsRequest;
 import com.cms.portal.patient.request.JwtRequest;
 import com.cms.portal.patient.response.inbound.PatientDetailsResponse;
@@ -18,6 +20,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Set;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -26,6 +30,8 @@ public class PatientServiceImpl implements PatientService {
     private final PatientRepository patientRepository;
 
     private final RestTemplate restTemplate;
+
+    private final RoleRepository roleRepository;
 
     @Value("${url.patient.getDetails}")
     private String getPatientDetailsUrl;
@@ -63,6 +69,7 @@ public class PatientServiceImpl implements PatientService {
                 .id(request.getId())
                 .username(request.getUsername())
                 .password(request.getPassword())
+                .role(Set.of(roleRepository.findByName(RoleEnum.valueOf(RoleEnum.PATIENT.name())).get()))
                 .build();
 
         patientRepository.save(patient);
