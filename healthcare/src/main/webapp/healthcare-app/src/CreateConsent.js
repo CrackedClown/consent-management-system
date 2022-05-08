@@ -1,7 +1,9 @@
 import { useState } from "react";
-import './patientRegistration.css';
+import './CSS/form.css';
 import Navbar from './Navbar';
-
+import {ToastContainer,toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Footer from "./Footer";
 function CreateConsent(){
     const user = JSON.parse(localStorage.getItem('user'));
     const [consent,setConsent]=useState({
@@ -22,45 +24,70 @@ function CreateConsent(){
                 "Authorization": "Bearer "+user.jwtToken },
             body: JSON.stringify(consent)
           };
-          fetch("http://48b6-119-161-98-68.ngrok.io/consent", requestOptions)
+          fetch("http://1091-119-161-98-68.ngrok.io/consent", requestOptions)
             .then(response => response.json())
-            .then(res => console.log(res));
+            .then(res => {
+                console.log(res);
+                setConsent({
+                    hid:user.user.hospitalInformation.hid,
+                    healthProfessionalId:user.user.id,
+                    patientId:"",
+                    fromDate:"",
+                    toDate:"",
+                    remarks:"",
+                    validUpto:""
+                });
+                if("id" in res)
+                {
+                    toast.success('Consent Request Generated'); 
+                } 
+                else
+                {
+                    toast.error(res.error);
+                }
+            });
     } 
     return(
-        <div class="container">
+        <div>
             <Navbar/>
+            <ToastContainer/>
+            <div className="container">
             <h1>Create Consent</h1>
-            <div class="row">
-                <div class="col-25"><label>Patient ID</label></div>
-                <div class="col-75"><input type="number" 
-                value={consent.patientId}
-                onChange={(e) => setConsent({ ...consent, patientId: e.target.value })}/> </div>
+            <form onSubmit={createConsent}>
+                <div className="row">
+                    <div className="col-25"><label>Patient ID</label></div>
+                    <div className="col-75"><input type="number" className="in"
+                    value={consent.patientId} required
+                    onChange={(e) => setConsent({ ...consent, patientId: e.target.value })}/> </div>
+                </div>
+                <div className="row">
+                    <div className="col-25"><label>From Date</label></div>
+                    <div className="col-75"><input type="date" className="in"
+                    value={consent.fromDate} required
+                    onChange={(e) => setConsent({ ...consent, fromDate: e.target.value })}/> </div>
+                </div>
+                <div className="row">
+                    <div className="col-25"><label>To Date</label></div>
+                    <div className="col-75"><input type="date" className="in" min={consent.fromDate}
+                    value={consent.toDate} required
+                    onChange={(e) => setConsent({ ...consent, toDate: e.target.value })}/> </div>
+                </div>
+                <div className="row">
+                    <div className="col-25"><label>Remarks</label></div>
+                    <div className="col-75"><input type="text" className="in"
+                    value={consent.remarks} required
+                    onChange={(e) => setConsent({ ...consent, remarks: e.target.value })}/> </div>
+                </div>
+                <div className="row">
+                    <div className="col-25"><label>Valid Upto</label></div>
+                    <div className="col-75"><input type="date" className="in" min={consent.toDate}
+                    value={consent.validUpto} required
+                    onChange={(e) => setConsent({ ...consent, validUpto: e.target.value })}/> </div>
+                </div>
+                <input type="submit" className="sb" value="Create Consent"/>
+            </form>
             </div>
-            <div class="row">
-                <div class="col-25"><label>From Date</label></div>
-                <div class="col-75"><input type="date" 
-                value={consent.fromDate}
-                onChange={(e) => setConsent({ ...consent, fromDate: e.target.value })}/> </div>
-            </div>
-            <div class="row">
-                <div class="col-25"><label>To Date</label></div>
-                <div class="col-75"><input type="date" 
-                value={consent.toDate}
-                onChange={(e) => setConsent({ ...consent, toDate: e.target.value })}/> </div>
-            </div>
-            <div class="row">
-                <div class="col-25"><label>Remarks</label></div>
-                <div class="col-75"><input type="text" 
-                value={consent.remarks}
-                onChange={(e) => setConsent({ ...consent, remarks: e.target.value })}/> </div>
-            </div>
-            <div class="row">
-                <div class="col-25"><label>Valid Upto</label></div>
-                <div class="col-75"><input type="date" 
-                value={consent.validUpto}
-                onChange={(e) => setConsent({ ...consent, validUpto: e.target.value })}/> </div>
-            </div>
-            <input type="submit" onClick={createConsent} value="Create Consent"/>
+            <Footer/>
         </div>
     );
 }

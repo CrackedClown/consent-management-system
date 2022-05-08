@@ -29,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
       borderBottom: "1px solid white",
     },
   },
+  navbar: {
+    backgroundColor:"black",
+  },
 }));
 
 function AdminNavbar() {
@@ -43,7 +46,7 @@ function AdminNavbar() {
   return (
     <AppBar position="static">
       <CssBaseline />
-      <Toolbar>
+      <Toolbar className={classes.navbar}>
         <Typography variant="h4" className={classes.logo}>
           Healthcare Portal
         </Typography>

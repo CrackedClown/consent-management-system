@@ -4,8 +4,10 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import AuthService from "./services/auth";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
+import "./CSS/menu.css"
+import Footer from "./Footer";
+import Header from "./Header";
 
 const required = (value) => {
   if (!value) {
@@ -59,41 +61,45 @@ const AdminLogin = () => {
     }
   };
   return (
-    <div className="col-md-12">
+    <div>
+      <Header/>
       <div>
-      <ul>
-          <li><Link to="/">Health Professional Login</Link></li>
-          <li><Link to="/adminLogin">Admin Login</Link></li>
+        <ul className="loginbar">
+          <li><Link to="/" className="l">Health Professional Login</Link></li>
+          <li className="active"><Link to="/adminLogin" className="l">Admin Login</Link></li>
         </ul>
       </div>
-      <div className="card card-container">
+      <div className="main">
         
-        <Form onSubmit={handleLogin} ref={form} style={{border: "3px solid #f1f1f1"}}>
+        <Form onSubmit={handleLogin} ref={form} className="form_class">
           <div><h2>Admin Login</h2></div>
-          <div className="form-group">
-            <label htmlFor="username">Username</label>
-            <Input
-              type="text"
-              className="form-control"
-              name="username"
-              value={username}
-              onChange={onChangeUsername}
-              validations={[required]}
-            />
+          <div className="form_div">
+            <div>
+              <label htmlFor="username">Username</label>
+              <Input
+                type="text"
+                className="field_class"
+                name="username"
+                value={username}
+                onChange={onChangeUsername}
+                validations={[required]}
+              />
+            </div>
+            <div>
+              <label htmlFor="password">Password</label>
+              <Input
+                type="password"
+                className="field_class"
+                name="password"
+                value={password}
+                onChange={onChangePassword}
+                validations={[required]}
+              />
+            </div>
           </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <Input
-              type="password"
-              className="form-control"
-              name="password"
-              value={password}
-              onChange={onChangePassword}
-              validations={[required]}
-            />
-          </div>
-          <div className="form-group">
-            <button disabled={loading}>
+          
+          <div>
+            <button disabled={loading} className="submit_class">
               {loading && (
                 <span className="spinner-border spinner-border-sm"></span>
               )}
@@ -110,6 +116,7 @@ const AdminLogin = () => {
           <CheckButton style={{ display: "none" }} ref={checkBtn} />
         </Form>
       </div>
+      <Footer/>
     </div>
   );
 };

@@ -1,7 +1,10 @@
 import { useState,useEffect } from "react";
-import './patientRegistration.css';
+import './CSS/form.css';
 import { useLocation } from 'react-router-dom'
 import Navbar from './Navbar';
+import {ToastContainer,toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Footer from "./Footer";
 
 function DelegateConsent(){
     const user = JSON.parse(localStorage.getItem('user'));
@@ -21,27 +24,48 @@ function DelegateConsent(){
                 "Authorization": "Bearer "+user.jwtToken },    
             body: JSON.stringify(delegate)
           };
-        fetch("http://f2cb-103-156-19-229.ngrok.io/consent/delegate", requestOptions)
+        fetch("http://1091-119-161-98-68.ngrok.io/consent/delegate", requestOptions)
             .then(response => response.json())
-            .then(res => console.log(res));
+            .then(res => {
+                console.log(res);
+                setDelegate({
+                    id:"",
+                    validUpto:"",
+                    consentStatus:"DELEGATED"
+                });
+                if("id" in res)
+                {
+                    toast.success('Consent Delegated Successfully'); 
+                } 
+                else
+                {
+                    toast.error(res.error);
+                }
+            });
     }
     return(
         <div>
             <Navbar/>
+            <ToastContainer/>
+            <div className="container">
             <h1>Delegate Consent</h1>
-            <div class="row">
-                <div class="col-25"><label>Healthcare Professional ID</label></div>
-                <div class="col-75"><input type="number" 
-                value={delegate.id}
-                onChange={(e) => setDelegate({ ...delegate, id: e.target.value })}/> </div>
+            <form onSubmit={delegateConsent}>
+                <div className="row">
+                    <div className="col-25"><label>Healthcare Professional ID</label></div>
+                    <div className="col-75"><input type="number" className="in"
+                    value={delegate.id} required
+                    onChange={(e) => setDelegate({ ...delegate, id: e.target.value })}/> </div>
+                </div>
+                <div className="row">
+                    <div className="col-25"><label>Valid Upto</label></div>
+                    <div className="col-75"><input type="date" className="in"
+                    value={delegate.validUpto} required
+                    onChange={(e) => setDelegate({ ...delegate, validUpto: e.target.value })}/> </div>
+                </div>
+                <input type="submit" className="sb" value="Delegate Consent"/>
+            </form>
             </div>
-            <div class="row">
-                <div class="col-25"><label>Valid Upto</label></div>
-                <div class="col-75"><input type="date" 
-                value={delegate.validUpto}
-                onChange={(e) => setDelegate({ ...delegate, validUpto: e.target.value })}/> </div>
-            </div>
-            <input type="submit" onClick={delegateConsent} value="Delegate Consent"/>
+            <Footer/>
         </div>        
     );
 }

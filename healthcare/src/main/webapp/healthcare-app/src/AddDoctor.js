@@ -1,7 +1,10 @@
 import { useState } from "react";
-import './patientRegistration.css';
+import './CSS/form.css';
 import { format } from 'date-fns';
 import AdminNavbar from "./AdminNavbar"
+import Footer from "./Footer";
+import {ToastContainer,toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function AddDoctor(){
     const user = JSON.parse(localStorage.getItem('user'));
@@ -26,81 +29,108 @@ function AddDoctor(){
                 "Authorization": "Bearer "+user.jwtToken },
             body: JSON.stringify(doctor)
           };
-          fetch("http://48b6-119-161-98-68.ngrok.io/healthcare/register", requestOptions)
+          fetch("http://1091-119-161-98-68.ngrok.io/healthcare/register", requestOptions)
             .then(response => response.json())
-            .then(res => console.log(res));
+            .then(res => {
+                console.log(res);
+                setDoctor({hid:user.user.hospitalInformation.hid,
+                    name:"",
+                    age:"",
+                    gender:"",
+                    email:"",
+                    governmentId:"",
+                    degree:"",
+                    department:"",
+                    mobileNum:"",
+                    role:""});
+                if("id" in res)
+                {
+                    toast.success('Health Professional Added Successfully'); 
+                } 
+                else
+                {
+                    toast.error(res.error);
+                }
+
+            });
     } 
     return(
-        <div class="container">
+        <div className="root">
             <AdminNavbar/>
+            <ToastContainer/>
+            <div className="container">
             <h1>Add Health Professional</h1>
-            <div class="row">
-                <div class="col-25"><label>Name</label></div>
-                <div class="col-75"><input type="text" 
-                value={doctor.name}
-                onChange={(e) => setDoctor({ ...doctor, name: e.target.value })}/> </div>
-            </div>
-            <div class="row">
-                <div class="col-25"><label>Age</label></div>
-                <div class="col-75"><input type="number" 
-                value={doctor.age}
-                onChange={(e) => setDoctor({ ...doctor, age: e.target.value })}/> </div>
-            </div>
+            <form onSubmit={addDoctor}>
+                <div className="row">
+                    <div className="col-25"><label>Name</label></div>
+                    <div className="col-75"><input type="text" className="in"
+                    value={doctor.name} required
+                    onChange={(e) => setDoctor({ ...doctor, name: e.target.value })}/> </div>
+                </div>
+                <div className="row">
+                    <div className="col-25"><label>Age</label></div>
+                    <div className="col-75"><input type="number" className="in"
+                    value={doctor.age} required
+                    onChange={(e) => setDoctor({ ...doctor, age: e.target.value })}/> </div>
+                </div>
 
-            <div class="row">
-                <div class="col-25"><label>Gender</label></div>
-                <input type="radio" id="male" name="gender" value="Male"
-                onChange={(e) => setDoctor({ ...doctor, gender: e.target.value })}/>
-                <label for="male">Male</label>
-                <input type="radio" id="female" name="gender" value="Female"
-                onChange={(e) => setDoctor({ ...doctor, gender: e.target.value })}/>
-                <label for="female">Female</label>
-            </div>
+                <div className="row">
+                    <div className="col-25"><label>Gender</label></div>
+                    <input type="radio" id="male" name="gender" value="Male" required
+                    onChange={(e) => setDoctor({ ...doctor, gender: e.target.value })}/>
+                  <label for="male">Male</label>
+                    <input type="radio" id="female" name="gender" value="Female" required
+                    onChange={(e) => setDoctor({ ...doctor, gender: e.target.value })}/>
+                  <label for="female">Female</label>
+                </div>
 
-            <div class="row">
-                <div class="col-25"><label>Email</label></div>
-                <div class="col-75"><input type="email" 
-                value={doctor.email}
-                onChange={(e) => setDoctor({ ...doctor, email: e.target.value })}/> </div>
-            </div>
+                <div className="row">
+                    <div className="col-25"><label>Email</label></div>
+                    <div className="col-75"><input type="email" className="in"
+                    value={doctor.email} required
+                    onChange={(e) => setDoctor({ ...doctor, email: e.target.value })}/> </div>
+                </div>
 
-            <div class="row">
-                <div class="col-25"><label>Government ID</label></div>
-                <div class="col-75"><input type="number" 
-                value={doctor.governmentId}
-                onChange={(e) => setDoctor({ ...doctor, governmentId: e.target.value })}/> </div>
-            </div>
-            
-            <div class="row">
-                <div class="col-25"><label>Degree</label></div>
-                <div class="col-75"><input type="text" 
-                value={doctor.degree}
-                onChange={(e) => setDoctor({ ...doctor, degree: e.target.value })}/> </div>
-            </div>
+                <div className="row">
+                    <div className="col-25"><label>Government ID</label></div>
+                    <div className="col-75"><input type="text" className="in" pattern="[0-9]{12}" title="must be in 12 digits"
+                    value={doctor.governmentId} required
+                    onChange={(e) => setDoctor({ ...doctor, governmentId: e.target.value })}/> </div>
+                </div>
+                
+                <div className="row">
+                    <div className="col-25"><label>Degree</label></div>
+                    <div className="col-75"><input type="text" className="in"
+                    value={doctor.degree} required
+                    onChange={(e) => setDoctor({ ...doctor, degree: e.target.value })}/> </div>
+                </div>
 
-            <div class="row">
-                <div class="col-25"><label>Department</label></div>
-                <div class="col-75"><input type="text" 
-                value={doctor.department}
-                onChange={(e) => setDoctor({ ...doctor, department: e.target.value })}/> </div>
-            </div>
+                <div className="row">
+                    <div className="col-25"><label>Department</label></div>
+                    <div className="col-75"><input type="text" className="in"
+                    value={doctor.department} required
+                    onChange={(e) => setDoctor({ ...doctor, department: e.target.value })}/> </div>
+                </div>
 
-            <div class="row">
-                <div class="col-25"><label>Mobile Number</label></div>
-                <div class="col-75"><input type="number" 
-                value={doctor.mobileNum}
-                onChange={(e) => setDoctor({ ...doctor, mobileNum: e.target.value })}/> </div>
+                <div className="row">
+                    <div className="col-25"><label>Mobile Number</label></div>
+                    <div className="col-75"><input type="text" className="in" pattern="[0-9]{10}" title="must be in 10 digits"
+                    value={doctor.mobileNum} required
+                    onChange={(e) => setDoctor({ ...doctor, mobileNum: e.target.value })}/> </div>
+                </div>
+                <div className="row">
+                    <div className="col-25"><label>Role</label></div>
+                    <input type="radio" id="doctor" name="role" value="DOCTOR" required
+                    onChange={(e) => setDoctor({ ...doctor, role: e.target.value })}/>
+                  <label for="doctor">Doctor</label>
+                    <input type="radio" id="nurse" name="role" value="NURSE" required
+                    onChange={(e) => setDoctor({ ...doctor, role: e.target.value })}/>
+                  <label for="nurse">Nurse</label>
+                </div>
+                <input type="submit" className="sb" value="Add"/>
+            </form>
             </div>
-            <div class="row">
-                <div class="col-25"><label>Role</label></div>
-                <input type="radio" id="doctor" name="role" value="DOCTOR"
-                onChange={(e) => setDoctor({ ...doctor, role: e.target.value })}/>
-                <label for="doctor">Doctor</label>
-                <input type="radio" id="nurse" name="role" value="NURSE"
-                onChange={(e) => setDoctor({ ...doctor, role: e.target.value })}/>
-                <label for="nurse">Nurse</label>
-            </div>
-            <input type="submit" onClick={addDoctor} value="Add"/>
+            <Footer/>
         </div>
     );
 }

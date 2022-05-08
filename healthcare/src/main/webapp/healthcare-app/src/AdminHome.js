@@ -1,23 +1,26 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import AdminNavbar from "./AdminNavbar"
+import Footer from "./Footer";
 const AdminHome = () => {
   return (
     <div>
       <AdminNavbar/>
-      <h1>Home Page</h1>
-      <br />
-      <ul>
-        <li>
-          <Link to="/admin/addDoctor">Add Health Professional</Link>
+      <div className="menu">
+        <h1>Home Page</h1>
+        <br />
+        
+        <li className="menu-item">
+          <Link to="/admin/addDoctor" className="l">Add Health Professional</Link>
         </li>
-        <li>
-          <Link to="/admin/removeDoctor">Remove Health Professional</Link>
+        <li className="menu-item">
+          <Link to="/admin/removeDoctor" className="l">Remove Health Professional</Link>
         </li>
-        <li>
-          <Link to="/admin/details">Health Professional User Details</Link>
+        <li className="menu-item">
+          <Link to="/admin/details" className="l">Health Professional User Details</Link>
         </li>
-      </ul>
+      </div>
+      <Footer/>
     </div>
   );
 };

@@ -1,9 +1,9 @@
 import { useState,useEffect } from "react";
-import './patientRegistration.css';
+import './CSS/form.css';
 import { Link } from "react-router-dom";
 import AdminNavbar from './AdminNavbar';
 import { format } from 'date-fns';
-
+import Footer from "./Footer";
 function HealthProfessionalDetails(){
     const user = JSON.parse(localStorage.getItem('user'));
     const [details,setDetails]=useState({
@@ -21,7 +21,7 @@ function HealthProfessionalDetails(){
             "Authorization": "Bearer "+user.jwtToken },
           };
           
-        fetch('http://f1af-103-156-19-229.ngrok.io/healthcare',requestOptions)
+        fetch('http://1091-119-161-98-68.ngrok.io/healthcare',requestOptions)
             .then(response => response.json())
             .then(res => setDetails({
                 items:res,
@@ -35,6 +35,7 @@ function HealthProfessionalDetails(){
     return(
         <div>
             <AdminNavbar/>
+            <div className="container">
             <h1>Health Professionals User Details</h1>
             <table>
                 <tr>
@@ -64,7 +65,8 @@ function HealthProfessionalDetails(){
                 ))
                 }      
             </table>
-            
+            </div>
+            <Footer/>
         </div>        
     );
 }

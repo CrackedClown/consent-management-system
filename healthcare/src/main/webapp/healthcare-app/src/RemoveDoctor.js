@@ -1,7 +1,10 @@
 import { useState } from "react";
-import './patientRegistration.css';
+import './CSS/form.css';
 import { format } from 'date-fns';
 import AdminNavbar from "./AdminNavbar"
+import Footer from "./Footer";
+import {ToastContainer,toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function RemoveDoctor(){
     const user = JSON.parse(localStorage.getItem('user'));
@@ -12,29 +15,47 @@ function RemoveDoctor(){
         e.preventDefault()
         console.log(JSON.stringify(doctor));
         const requestOptions = {
-            method: "POST",
+            method: "DELETE",
             headers: { "Content-Type": "application/json",
                 "healthProfessionalId":doctor.healthProfessionalId,
-                "Authorization": "Bearer "+user.jwtToken },
-            body: JSON.stringify(doctor)
+                "Authorization": "Bearer "+user.jwtToken }
           };
-          fetch("http://2646-103-156-19-229.ngrok.io/healthcare/remove", requestOptions)
+          fetch("http://1091-119-161-98-68.ngrok.io/healthcare/remove", requestOptions)
             .then(response => response.json())
-            .then(res => console.log(res));
+            .then(res => {
+                console.log(res);
+                setDoctor({
+                    healthProfessionalId:""
+                })
+                if("id" in res)
+                {
+                    toast.success('Health Professional Removed Successfully'); 
+                } 
+                else
+                {
+                    toast.error(res.error);
+                }
+
+            });
     } 
     return(
-        <div class="container">
+        <div>
             <AdminNavbar/>
+            <ToastContainer/>
+            <div className="container">
             <h1>Remove Health Professional</h1>
-            
-            <div class="row">
-                <div class="col-25"><label>health Professional ID</label></div>
-                <div class="col-75"><input type="number" 
-                value={doctor.healthProfessionalId}
-                onChange={(e) => setDoctor({ ...doctor, healthProfessionalId: e.target.value })}/> </div>
+            <form onSubmit={removeDoctor}>
+                <div className="row">
+                    <div className="col-25"><label>health Professional ID</label></div>
+                    <div className="col-75"><input type="number" className="in"
+                    value={doctor.healthProfessionalId} required
+                    onChange={(e) => setDoctor({ ...doctor, healthProfessionalId: e.target.value })}/> </div>
+                </div>
+                
+                <input type="submit" className="sb" value="Remove"/>
+            </form>
             </div>
-           
-            <input type="submit" onClick={removeDoctor} value="Remove"/>
+            <Footer/>
         </div>
     );
 }

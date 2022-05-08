@@ -1,7 +1,10 @@
 import { useState } from "react";
-import './patientRegistration.css';
+import './CSS/form.css';
 import { format } from 'date-fns';
 import Navbar from './Navbar';
+import {ToastContainer,toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Footer from "./Footer";
 
 function AddPatientEHR(){
     const user = JSON.parse(localStorage.getItem('user'));
@@ -13,9 +16,6 @@ function AddPatientEHR(){
         consultationTime:format(new Date(), 'yyyy-MM-dd'),
         healthProfessionalId:user.user.id
       });
-    //if (user && user.jwtToken) {
-      //  return { Authorization: 'Bearer ' + user.accessToken };
-    //}
     const addRecord = (e) => {
         e.preventDefault()
         console.log(JSON.stringify(record));
@@ -25,39 +25,63 @@ function AddPatientEHR(){
                 "Authorization": "Bearer "+user.jwtToken },
             body: JSON.stringify(record)
           };
-          fetch("http://f2cb-103-156-19-229.ngrok.io/ehr", requestOptions)
+          fetch("http://1091-119-161-98-68.ngrok.io/ehr", requestOptions)
             .then(response => response.json())
-            .then(res => console.log(res));
+            .then(res => {
+                console.log(res);
+                setRecord({
+                    patientId:"",
+                    symptoms:"",
+                    prescription:"",
+                    remarks:"",
+                    consultationTime:format(new Date(), 'yyyy-MM-dd'),
+                    healthProfessionalId:user.user.id
+                });
+                if("id" in res)
+                {
+                    toast.success('Record Added Successfully'); 
+                } 
+                else
+                {
+                    toast.error(res.error);
+                }
+            });
     } 
     return(
-        <div class="container">
+        <div>
             <Navbar/>
+            <ToastContainer/>
+            <div className="container">
             <h1>Add New EHR</h1>
-            <div class="row">
-                <div class="col-25"><label>Patient ID</label></div>
-                <div class="col-75"><input type="number" 
-                value={record.patientId}
-                onChange={(e) => setRecord({ ...record, patientId: e.target.value })}/> </div>
+            <form onSubmit={addRecord}>
+                <div className="row">
+                    <div className="col-25"><label>Patient ID</label></div>
+                    <div className="col-75"><input type="number" className="in"
+                    value={record.patientId} required
+                    onChange={(e) => setRecord({ ...record, patientId: e.target.value })}/> </div>
+                </div>
+                <div className="row">
+                    <div className="col-25"><label>Symptoms</label></div>
+                    <div className="col-75"><input type="text" className="in"
+                    value={record.symptoms} required
+                    onChange={(e) => setRecord({ ...record, symptoms: e.target.value })}/> </div>
+                </div>
+                <div className="row">
+                    <div className="col-25"><label>Prescription</label></div>
+                    <div className="col-75"><input type="text" className="in"
+                    value={record.prescription} required
+                    onChange={(e) => setRecord({ ...record, prescription: e.target.value })}/> </div>
+                </div>
+                <div className="row">
+                    <div className="col-25"><label>Remarks</label></div>
+                    <div className="col-75"><input type="text" className="in"
+                    value={record.remarks} required
+                    onChange={(e) => setRecord({ ...record, remarks: e.target.value })}/> </div>
+                </div>
+                <input type="submit" className="sb" value="Add"/>
+            </form>
             </div>
-            <div class="row">
-                <div class="col-25"><label>Symptoms</label></div>
-                <div class="col-75"><input type="text" 
-                value={record.symptoms}
-                onChange={(e) => setRecord({ ...record, symptoms: e.target.value })}/> </div>
-            </div>
-            <div class="row">
-                <div class="col-25"><label>Prescription</label></div>
-                <div class="col-75"><input type="text" 
-                value={record.prescription}
-                onChange={(e) => setRecord({ ...record, prescription: e.target.value })}/> </div>
-            </div>
-            <div class="row">
-                <div class="col-25"><label>Remarks</label></div>
-                <div class="col-75"><input type="text" 
-                value={record.remarks}
-                onChange={(e) => setRecord({ ...record, remarks: e.target.value })}/> </div>
-            </div>
-            <input type="submit" onClick={addRecord} value="Add"/>
+            <Footer/>
         </div>
     );
 }

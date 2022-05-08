@@ -1,8 +1,8 @@
 import { useState,useEffect } from "react";
-import './patientRegistration.css';
+import './CSS/form.css';
 import { useLocation } from 'react-router-dom'
 import Navbar from './Navbar';
-
+import Footer from './Footer';
 function ViewEHR(){
     const user = JSON.parse(localStorage.getItem('user'));
     const location = useLocation()
@@ -23,7 +23,7 @@ function ViewEHR(){
             "Authorization": "Bearer "+user.jwtToken}
           };
           
-        fetch('http://f2cb-103-156-19-229.ngrok.io/ehr',requestOptions)
+        fetch('http://1091-119-161-98-68.ngrok.io/ehr',requestOptions)
             .then(response => response.json())
             .then(res => setEhr({
                 data:res,
@@ -36,6 +36,7 @@ function ViewEHR(){
     return(
         <div>
             <Navbar/>
+            <div className="container">
             <h1>E Health Records</h1>
             <table>
                 <tr>
@@ -61,6 +62,8 @@ function ViewEHR(){
                     ))
                 }
             </table>
+            </div>
+            <Footer/>
         </div>
     );
 }

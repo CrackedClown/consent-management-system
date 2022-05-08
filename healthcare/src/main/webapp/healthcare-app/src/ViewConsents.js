@@ -1,9 +1,9 @@
 import { useState,useEffect } from "react";
-import './patientRegistration.css';
+import './CSS/form.css';
 import { Link } from "react-router-dom";
 import Navbar from './Navbar';
 import { format } from 'date-fns';
-
+import Footer from "./Footer";
 function ViewConsents(){
     //const [id,setId]=useState({
       //  healthProfessionalId:1,
@@ -28,7 +28,7 @@ function ViewConsents(){
             "Authorization": "Bearer "+user.jwtToken },
           };
           
-        fetch('http://48b6-119-161-98-68.ngrok.io/consent/healthcare',requestOptions)
+        fetch('http://1091-119-161-98-68.ngrok.io/consent/healthcare',requestOptions)
             .then(response => response.json())
             .then(res => setConsent({
                 items:res,
@@ -42,6 +42,7 @@ function ViewConsents(){
     return(
         <div>
             <Navbar/>
+            <div className="container">
             <h1>Consents</h1>
             <table>
                 <tr>
@@ -91,7 +92,8 @@ function ViewConsents(){
                 ))
                 }      
             </table>
-            
+            </div>
+            <Footer/>
         </div>        
     );
 }

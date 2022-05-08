@@ -1,29 +1,29 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Footer from "./Footer";
 import Navbar from "./Navbar"
 const Home = () => {
   return (
     <div>
       <Navbar/>
-      <h1>Home Page</h1>
-      <br />
-      <ul>
-        <li>
-          <Link to="/home">Home</Link>
+      <div className="menu">
+        <h1>Home Page</h1>
+        <br />
+        
+        <li className="menu-item">
+          <Link to="/patientRegistration" className="l">Patient Registration</Link>
         </li>
-        <li>
-          <Link to="/patientRegistration">Patient Registration</Link>
+        <li className="menu-item">
+          <Link to="/addPatientEHR" className="l">Add Patient EHR</Link>
         </li>
-        <li>
-          <Link to="/addPatientEHR">Add Patient EHR</Link>
+        <li className="menu-item">
+          <Link to="/createConsent" className="l">Create Consent</Link>
         </li>
-        <li>
-          <Link to="/createConsent">Create Consent</Link>
+        <li className="menu-item">
+          <Link to="/viewConsents" className="l">View Consents</Link>
         </li>
-        <li>
-          <Link to="/viewConsents">View Consents</Link>
-        </li>
-      </ul>
+      </div>
+      <Footer/>
     </div>
   );
 };
