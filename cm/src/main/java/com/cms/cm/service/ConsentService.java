@@ -2,6 +2,7 @@ package com.cms.cm.service;
 
 import com.cms.cm.entity.Consent;
 import com.cms.cm.request.ConsentRequest;
+import com.cms.cm.request.DelegateConsentRequest;
 import com.cms.cm.request.UpdateConsentRequest;
 import com.cms.cm.response.ConsentResponse;
 
@@ -19,6 +20,6 @@ public interface ConsentService {
 
     List<ConsentResponse> getConsentsByPatientId(Long patientId);
 
-    ConsentResponse delegateConsent(UpdateConsentRequest updateConsentRequest);
+    ConsentResponse delegateConsent(DelegateConsentRequest delegateConsentRequest);
 
 }

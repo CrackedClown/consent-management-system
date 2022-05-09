@@ -29,7 +29,7 @@ public class Patient {
     @Column(name = "gender", nullable = false)
     private String gender;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "government_id", nullable = false, unique = true, length = 12)

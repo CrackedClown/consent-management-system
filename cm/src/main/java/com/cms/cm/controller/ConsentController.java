@@ -1,6 +1,7 @@
 package com.cms.cm.controller;
 
 import com.cms.cm.request.ConsentRequest;
+import com.cms.cm.request.DelegateConsentRequest;
 import com.cms.cm.request.UpdateConsentRequest;
 import com.cms.cm.response.ConsentResponse;
 import com.cms.cm.service.ConsentService;
@@ -37,8 +38,8 @@ public class ConsentController {
 
     @PutMapping (CMConstants.API_DELEGATE)
     @PreAuthorize("hasRole('HEALTHCARE_PORTAL')")
-    public ResponseEntity<ConsentResponse> delegateConsent(@RequestBody UpdateConsentRequest updateConsentRequest){
-        ConsentResponse response = consentService.delegateConsent(updateConsentRequest);
+    public ResponseEntity<ConsentResponse> delegateConsent(@RequestBody DelegateConsentRequest delegateConsentRequest){
+        ConsentResponse response = consentService.delegateConsent(delegateConsentRequest);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

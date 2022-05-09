@@ -1,4 +1,4 @@
-package com.cms.portal.healthcare.request.outbound;
+package com.cms.cm.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,8 +12,8 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UpdateConsentRequest {
-    
+public class DelegateConsentRequest {
+
     @NotNull
     private Long id;
 
