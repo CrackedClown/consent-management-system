@@ -1,0 +1,53 @@
+html,
+body {
+  background-color: #F9F7F7;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+h1 {
+  background-color: #112D4E;
+  font-family: "Times New Roman", Times, serif;
+  color: #efefef;
+  padding: 40px;
+  margin: 0%;
+}
+
+.card {
+  margin-top: 40px;
+  background-color: #3F72AF;
+}
+
+.row {
+  margin: 0 2%;
+}
+
+img {
+  align-items: center;
+  width: 20%;
+  height: 20%;
+  margin-bottom: 25px;
+}
+
+td button {
+  margin: 0 2%;
+}
+
+#exampleInputEmail1 {
+  margin: 0 auto 10px;
+  width: 25%;
+  text-align: center;
+}
+
+#exampleInputPassword1 {
+  margin: 0 auto 10px;
+  width: 25%;
+  text-align: center;
+}
+
+.user {
+  margin: 10px auto;
+  width: 50%;
+  text-align: center;
+}

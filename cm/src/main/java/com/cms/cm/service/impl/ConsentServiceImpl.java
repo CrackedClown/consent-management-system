@@ -4,6 +4,7 @@ import com.cms.cm.entity.Consent;
 import com.cms.cm.enums.ConsentStatus;
 import com.cms.cm.repository.ConsentRepository;
 import com.cms.cm.request.ConsentRequest;
+import com.cms.cm.request.DelegateConsentRequest;
 import com.cms.cm.request.UpdateConsentRequest;
 import com.cms.cm.response.ConsentResponse;
 import com.cms.cm.service.ConsentService;
@@ -85,17 +86,17 @@ public class ConsentServiceImpl implements ConsentService {
     }
 
     @Override
-    public ConsentResponse delegateConsent(UpdateConsentRequest updateConsentRequest) {
-        Consent consent = consentRepository.findById(updateConsentRequest.getId()).get();
+    public ConsentResponse delegateConsent(DelegateConsentRequest delegateConsentRequest) {
+        Consent consent = consentRepository.findById(delegateConsentRequest.getId()).get();
         Consent delegatedConsent = Consent.builder()
                 .hid(consent.getHid())
-                .healthProfessionalId(consent.getHealthProfessionalId())
+                .healthProfessionalId(delegateConsentRequest.getHealthProfessionalId())
                 .patientId(consent.getPatientId())
                 .fromDate(consent.getFromDate())
                 .toDate(consent.getToDate())
                 .remarks(consent.getRemarks())
                 .validUpto(consent.getValidUpto())
-                .validUpto(updateConsentRequest.getValidUpto())
+                .validUpto(delegateConsentRequest.getValidUpto())
                 .status(ConsentStatus.DELEGATED)
                 .build();
         delegatedConsent = consentRepository.save(delegatedConsent);
